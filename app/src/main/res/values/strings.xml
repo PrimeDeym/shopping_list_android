@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ShoppingList</string>
+    <string name="add_product">Добавить товар</string>
+    <string name="delete_products">Очистить список</string>
 </resources>
