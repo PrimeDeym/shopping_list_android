@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">ShoppingList</string>
+    <string name="app_name">Список покупок</string>
     <string name="add_product">Добавить товар</string>
     <string name="delete_products">Очистить список</string>
+    <string name="AddProduct_activity_title">Добавить товар в список покупок</string>
+    <string name="button_add">Добавить</string>
+    <string name="favorite_button_text">В избранное</string>
 </resources>
