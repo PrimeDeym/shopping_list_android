@@ -17,8 +17,13 @@
         </activity>
         <activity
             android:name=".AddProducts"
-            android:label="@string/AddProduct_activity_title"></activity>
-        <activity android:name=".ShoppingListActivity"></activity>
+            android:label="@string/AddProduct_activity_title"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".ShoppingListActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>
