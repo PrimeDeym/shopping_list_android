@@ -7,45 +7,62 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ua.primedeym.shoppinglist.Fragments.BoughtListFragment;
 import ua.primedeym.shoppinglist.Fragments.BuyListFragment;
-import ua.primedeym.shoppinglist.Fragments.FavoriteFragment;
 
 public class ShoppingListActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
-    private Toolbar toolbar;
-    private ViewPager viewPager;
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    ViewPagerAdapter adapter;
+    List<Fragment> listFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+        listFragment = new ArrayList<>();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment frag = listFragment.get(tab.getPosition());
+                frag.onResume();
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     public void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new BuyListFragment(), "Купить");
         adapter.addFragment(new BoughtListFragment(), "Купленные");
-        adapter.addFragment(new FavoriteFragment(), "Избранное");
         viewPager.setAdapter(adapter);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        List<Fragment> listFragment = new ArrayList<>();
+
         List<String> titleFragment = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager fm) {

@@ -8,13 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "shoppingListDB";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 6;
 
     public static final String TABLE_NAME = "Products";
     public static final String COL_NAME = "NAME";
     public static final String COL_MAGAZINE = "MAGAZINE";
-    public static final String COL_BOUGHT = "NO";
-    public static final String COL_FAVORITE = "NO";
+    public static final String COL_BOUGHT = "BOUGHT";
 
     public SLDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -25,7 +24,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         String query = "create table " + TABLE_NAME + "(_id integer primary key autoincrement, "
                 + COL_NAME + " TEXT, "
                 + COL_MAGAZINE + " TEXT, "
-                + COL_FAVORITE + " TEXT, "
+                + "FAVORITE NUMERIC, "
                 + COL_BOUGHT + " TEXT);";
         sqLiteDatabase.execSQL(query);
     }
@@ -42,7 +41,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_NAME, name);
         contentValues.put(COL_MAGAZINE, magazine);
         contentValues.put(COL_BOUGHT, "NO");
-        contentValues.put(COL_FAVORITE, "NO");
+        contentValues.put("FAVORITE", false);
         //Create check for true or false
         db.insert(TABLE_NAME, null, contentValues);
         db.close();
@@ -55,6 +54,10 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(TABLE_NAME, contentValues, "_id = ?", new String[] {String.valueOf(rowID)});
     }
 
+    public void dropTable(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME, null, null);
+    }
     public void updateFavoriteProduct(){
 
     }
