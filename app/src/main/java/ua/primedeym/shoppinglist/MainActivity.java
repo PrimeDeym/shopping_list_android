@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
     public void showShoppingList() {
         try {
             db = helper.getReadableDatabase();
-            cursor = db.query(SLDatabaseHelper.TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE},
+            cursor = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
+                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME},
                     null, null, null, null, null);
             adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                    cursor, new String[]{SLDatabaseHelper.COL_MAGAZINE}, new int[]{android.R.id.text1}, 0);
+                    cursor, new String[]{SLDatabaseHelper.MAGAZINE_COL_NAME}, new int[]{android.R.id.text1}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
             Toast.makeText(MainActivity.this, "База данных не доступна", Toast.LENGTH_SHORT).show();
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             helper = new SLDatabaseHelper(this);
             db = helper.getReadableDatabase();
-            Cursor cursorNew = db.query(SLDatabaseHelper.TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE},
+            Cursor cursorNew = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
+                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME},
                     null, null, null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 listName = String.valueOf(inputText.getText());
-                helper.insertListAndProduct(listName);
+                helper.insertShoppingList(listName);
                 onResume();
                 Toast.makeText(MainActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
             }
@@ -125,10 +125,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_products:
-
+                helper.dropListTable();
+                onResume();
+                Toast.makeText(MainActivity.this, "База данных списков покупок обнулена", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.drop_table:
-                helper.dropTable();
+                helper.dropProductTable();
                 onResume();
                 Toast.makeText(MainActivity.this, "База данных обнулена", Toast.LENGTH_SHORT).show();
                 return true;

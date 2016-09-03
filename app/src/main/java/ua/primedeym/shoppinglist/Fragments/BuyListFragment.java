@@ -26,7 +26,7 @@ public class BuyListFragment extends Fragment {
     SLDatabaseHelper helper;
     Cursor cursor;
     ListView listView;
-    String text;
+    String textTitle;
 
     public BuyListFragment() {
     }
@@ -40,7 +40,7 @@ public class BuyListFragment extends Fragment {
         helper = new SLDatabaseHelper(getContext());
         db = helper.getWritableDatabase();
 
-        text = getActivity().getTitle().toString();
+        textTitle = getActivity().getTitle().toString();
 
         showProduct();
         return view;
@@ -48,8 +48,8 @@ public class BuyListFragment extends Fragment {
 
     public void showProduct() {
         cursor = db.query(SLDatabaseHelper.TABLE_NAME, new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
-                SLDatabaseHelper.COL_BOUGHT + " = ?",
-                new String[]{"NO"},
+                SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+                new String[]{"NO", textTitle},
                 null, null, null);
 
         CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
@@ -77,8 +77,9 @@ public class BuyListFragment extends Fragment {
             SLDatabaseHelper helperNew = new SLDatabaseHelper(getContext());
             db = helperNew.getReadableDatabase();
             Cursor cursorNew = db.query(SLDatabaseHelper.TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_NAME},
-                    SLDatabaseHelper.COL_BOUGHT + " = ?", new String[]{"NO"},
+                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
+                    SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+                    new String[]{"NO", textTitle},
                     null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);

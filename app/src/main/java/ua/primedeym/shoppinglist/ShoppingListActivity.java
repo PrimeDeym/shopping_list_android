@@ -29,6 +29,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     String intentExtra, title, listName;
     SLDatabaseHelper helper;
     EditText inputText;
+    Fragment frag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +57,20 @@ public class ShoppingListActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment frag = listFragment.get(tab.getPosition());
+                frag = listFragment.get(tab.getPosition());
                 frag.onResume();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                frag = listFragment.get(tab.getPosition());
+                frag.onResume();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                frag = listFragment.get(tab.getPosition());
+                frag.onResume();
             }
         });
     }
@@ -78,13 +81,13 @@ public class ShoppingListActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    createList();
+                    createProduct();
                 }
             });
         }
     }
 
-    private void createList() {
+    private void createProduct() {
         inputText = new EditText(this);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Добавить товар");
@@ -94,7 +97,8 @@ public class ShoppingListActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 listName = String.valueOf(inputText.getText());
                 helper.insertProduct(listName, title);
-                onResume();
+                frag = listFragment.get(0);
+                frag.onResume();
                 Toast.makeText(getApplicationContext(), "Вы создали товар " + listName, Toast.LENGTH_SHORT).show();
             }
         });

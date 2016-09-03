@@ -23,6 +23,7 @@ public class BoughtListFragment extends Fragment {
     SLDatabaseHelper helper;
     Cursor cursor, cursorNew;
     ListView listView;
+    String textTitle;
 
     public BoughtListFragment() {
     }
@@ -33,6 +34,8 @@ public class BoughtListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bought_list, container, false);
         helper = new SLDatabaseHelper(getContext());
+        textTitle = getActivity().getTitle().toString();
+
         db = helper.getWritableDatabase();
         listView = (ListView) view.findViewById(R.id.bought_product_listView);
         showProduct();
@@ -40,8 +43,11 @@ public class BoughtListFragment extends Fragment {
     }
 
     public void showProduct() {
-        cursor = db.query(SLDatabaseHelper.TABLE_NAME, new String[]{"_id", SLDatabaseHelper.COL_NAME},
-                SLDatabaseHelper.COL_BOUGHT + " = ?", new String[]{"YES"}, null, null, null);
+        cursor = db.query(SLDatabaseHelper.TABLE_NAME,
+                new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
+                SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+                new String[]{"YES", textTitle},
+                null, null, null);
         CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
                 android.R.layout.simple_list_item_1,
                 cursor,
@@ -55,8 +61,9 @@ public class BoughtListFragment extends Fragment {
             helper = new SLDatabaseHelper(getContext());
             db = helper.getReadableDatabase();
             cursorNew = db.query(SLDatabaseHelper.TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_NAME},
-                    SLDatabaseHelper.COL_BOUGHT + " = ?", new String[]{"YES"},
+                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
+                    SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+                    new String[]{"YES", textTitle},
                     null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
