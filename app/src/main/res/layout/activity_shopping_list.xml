@@ -12,18 +12,30 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            app:tabTextColor="@color/tab_text_color"
-            app:tabSelectedTextColor="@color/tab_selected_text_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabGravity="fill"
             app:tabMode="fixed"
-            app:tabGravity="fill"/>
+            app:tabSelectedTextColor="@color/tab_selected_text_color"
+            app:tabTextColor="@color/tab_text_color" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:adjustViewBounds="false"
+        android:src="@drawable/ic_add_product_light" />
 
 </android.support.design.widget.CoordinatorLayout>

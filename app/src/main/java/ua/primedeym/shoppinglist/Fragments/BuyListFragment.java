@@ -18,16 +18,15 @@ import android.widget.Toast;
 
 import ua.primedeym.shoppinglist.R;
 import ua.primedeym.shoppinglist.SLDatabaseHelper;
-import ua.primedeym.shoppinglist.ShoppingListActivity;
 
 public class BuyListFragment extends Fragment {
 
     protected View view;
     SQLiteDatabase db;
     SLDatabaseHelper helper;
-    Cursor cursor, cursorNew;
+    Cursor cursor;
     ListView listView;
-    ShoppingListActivity activity;
+    String text;
 
     public BuyListFragment() {
     }
@@ -36,19 +35,23 @@ public class BuyListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_buy, container, false);
+
         listView = (ListView) view.findViewById(R.id.buy_product_listView);
         helper = new SLDatabaseHelper(getContext());
         db = helper.getWritableDatabase();
 
-        activity = (ShoppingListActivity) getActivity();
+        text = getActivity().getTitle().toString();
 
         showProduct();
         return view;
     }
 
     public void showProduct() {
-        cursor = db.query(SLDatabaseHelper.TABLE_NAME, new String[]{"_id", SLDatabaseHelper.COL_NAME},
-                SLDatabaseHelper.COL_BOUGHT + " = ?", new String[]{"NO"}, null, null, null);
+        cursor = db.query(SLDatabaseHelper.TABLE_NAME, new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
+                SLDatabaseHelper.COL_BOUGHT + " = ?",
+                new String[]{"NO"},
+                null, null, null);
+
         CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
                 android.R.layout.simple_list_item_1,
                 cursor,
@@ -69,7 +72,7 @@ public class BuyListFragment extends Fragment {
         });
     }
 
-    public void updateCursor(){
+    public void updateCursor() {
         try {
             SLDatabaseHelper helperNew = new SLDatabaseHelper(getContext());
             db = helperNew.getReadableDatabase();
@@ -95,7 +98,6 @@ public class BuyListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         cursor.close();
-        cursorNew.close();
         db.close();
     }
 }

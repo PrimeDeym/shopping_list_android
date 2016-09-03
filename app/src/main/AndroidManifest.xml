@@ -3,7 +3,6 @@
     package="ua.primedeym.shoppinglist">
 
     <application
-        android:fullBackupContent="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,10 +15,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AddProducts"
-            android:label="@string/AddProduct_activity_title"
-            android:parentActivityName=".ShoppingListActivity"/>
         <activity
             android:name=".ShoppingListActivity"
             android:parentActivityName=".MainActivity" />

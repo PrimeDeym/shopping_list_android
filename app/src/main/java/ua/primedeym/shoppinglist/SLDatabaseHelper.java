@@ -15,8 +15,13 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_MAGAZINE = "MAGAZINE";
     public static final String COL_BOUGHT = "BOUGHT";
 
+    //new
+    public static final String MAGAZINE_TABLE = "Magazine";
+    public static final String MAGAZINE_COL_NAME = "NAME";
+
+    //new
     public SLDatabaseHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        super(context, TABLE_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -40,10 +45,18 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_NAME, name);
         contentValues.put(COL_MAGAZINE, magazine);
-        contentValues.put(COL_BOUGHT, "NO");
-        contentValues.put("FAVORITE", false);
-        //Create check for true or false
         db.insert(TABLE_NAME, null, contentValues);
+        db.close();
+    }
+
+    public void insertListAndProduct(String magazine){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NAME, " ");
+        cv.put(COL_MAGAZINE, magazine);
+        cv.put(COL_BOUGHT, "NO");
+        cv.put("FAVORITE", false);
+        db.insert(TABLE_NAME, null, cv);
         db.close();
     }
 
