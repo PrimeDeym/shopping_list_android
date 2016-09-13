@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 listName = String.valueOf(inputText.getText());
                 helper.insertShoppingList(listName);
-                onResume();
+                updateCursor();
                 Toast.makeText(MainActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
             }
         });

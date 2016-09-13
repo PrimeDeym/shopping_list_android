@@ -1,19 +1,14 @@
 package ua.primedeym.shoppinglist;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +21,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPagerAdapter adapter;
     List<Fragment> listFragment;
+    List<String> titleFragment;
     String intentExtra, title, listName;
     SLDatabaseHelper helper;
     EditText inputText;
@@ -35,8 +31,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-        initFab();
         listFragment = new ArrayList<>();
+        titleFragment = new ArrayList<>();
         helper = new SLDatabaseHelper(this);
 
         Intent intent = getIntent();
@@ -63,53 +59,39 @@ public class ShoppingListActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                frag = listFragment.get(tab.getPosition());
-                frag.onResume();
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                frag = listFragment.get(tab.getPosition());
-                frag.onResume();
+
             }
         });
     }
 
-    public void initFab() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    createProduct();
-                }
-            });
-        }
-    }
-
-    private void createProduct() {
-        inputText = new EditText(this);
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Добавить товар");
-        alertDialog.setView(inputText);
-        alertDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                listName = String.valueOf(inputText.getText());
-                helper.insertProduct(listName, title);
-                frag = listFragment.get(0);
-                frag.onResume();
-                Toast.makeText(getApplicationContext(), "Вы создали товар " + listName, Toast.LENGTH_SHORT).show();
-            }
-        });
-        alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
+//    private void createProduct() {
+//        inputText = new EditText(this);
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+//        alertDialog.setTitle("Добавить товар");
+//        alertDialog.setView(inputText);
+//        alertDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                listName = String.valueOf(inputText.getText());
+//                helper.insertProduct(listName, title);
+//                frag = listFragment.get(0);
+//                frag.onResume();
+//                Toast.makeText(getApplicationContext(), "Вы создали товар " + listName, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//            }
+//        });
+//        alertDialog.show();
+//    }
 
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -119,8 +101,6 @@ public class ShoppingListActivity extends AppCompatActivity {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        List<String> titleFragment = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);

@@ -26,10 +26,10 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String queryProduct = "create table " + TABLE_NAME + "(_id integer primary key autoincrement, "
+        String queryProduct = "create table " + TABLE_NAME
+                + "(_id integer primary key autoincrement, "
                 + COL_NAME + " TEXT, "
                 + COL_MAGAZINE + " TEXT, "
-                + "FAVORITE NUMERIC, "
                 + COL_BOUGHT + " TEXT);";
         sqLiteDatabase.execSQL(queryProduct);
         String queryList = "create table " + MAGAZINE_TABLE_NAME
@@ -52,7 +52,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_MAGAZINE, magazine);
         contentValues.put(COL_BOUGHT, "NO");
         db.insert(TABLE_NAME, null, contentValues);
-        db.close();
+
     }
 
     public void insertShoppingList(String magazine){
@@ -60,7 +60,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, magazine);
         db.insert(MAGAZINE_TABLE_NAME, null, cv);
-        db.close();
+
     }
 
     public void updateStatus(long rowID){

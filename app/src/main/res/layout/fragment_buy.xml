@@ -3,10 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.BuyListFragment">
-
     <ListView
         android:id="@+id/buy_product_listView"
         android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
         android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:adjustViewBounds="false"
+            android:src="@drawable/ic_add_product_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
 </FrameLayout>

@@ -38,7 +38,6 @@ public class BoughtListFragment extends Fragment {
 
         db = helper.getWritableDatabase();
         listView = (ListView) view.findViewById(R.id.bought_product_listView);
-        showProduct();
         return view;
     }
 
@@ -76,14 +75,13 @@ public class BoughtListFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        updateCursor();
+        showProduct();
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cursorNew.close();
         cursor.close();
         db.close();
     }
