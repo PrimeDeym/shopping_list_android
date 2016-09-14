@@ -8,6 +8,6 @@
     <string name="enter_product_name">Введите название товара</string>
     <string name="drop_table_database">Удалить таблицу</string>
     <string name="custom_dialog_add_button">Добавить</string>
-    <string name="custom_dialog_cancel_button">Отмена</string>
-    <string name="custom_dialog_title">Название товара</string>
+    <string name="custom_dialog_cancel_button">Назад</string>
+    <string name="custom_dialog_title">Введите название</string>
 </resources>

@@ -1,24 +1,29 @@
 package ua.primedeym.shoppinglist;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.widget.AdapterView.*;
+
 
 public class MainActivity extends AppCompatActivity {
     SLDatabaseHelper helper;
@@ -28,16 +33,19 @@ public class MainActivity extends AppCompatActivity {
     CursorAdapter adapter;
     String listName;
     EditText inputText;
+    public static final int DELETE_MENU = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initFab();
+
+        setTitle("Списки покупок");
         helper = new SLDatabaseHelper(this);
         listView = (ListView) findViewById(R.id.main_list_view);
         listView.setClickable(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        registerForContextMenu(listView);
+        listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
@@ -47,7 +55,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        initFab();
         showShoppingList();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, DELETE_MENU, 0, "Удалить список");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == DELETE_MENU) {
+            AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+            helper.deleteList(adapterContextMenuInfo.id);
+            updateCursor();
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void showShoppingList() {
@@ -81,26 +108,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void createList() {
-        inputText = new EditText(this);
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Создать список покупок");
-        alertDialog.setView(inputText);
-        alertDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+        inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
+        dialogTitle.setText("Название списка");
+        Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                listName = String.valueOf(inputText.getText());
+            public void onClick(View view) {
+                listName = inputText.getText().toString();
                 helper.insertShoppingList(listName);
-                updateCursor();
                 Toast.makeText(MainActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
+                updateCursor();
+                inputText.setText(" ");
+
             }
         });
-        alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+        Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
-        alertDialog.show();
+        dialog.show();
     }
 
     public void initFab() {
@@ -126,8 +159,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.drop_table:
                 helper.dropListTable();
+
                 onResume();
-                Toast.makeText(MainActivity.this, "База данных списков покупок обнулена", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "База данных списков покупок обнулена + колонки " + cursor.getCount(),
+                        Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

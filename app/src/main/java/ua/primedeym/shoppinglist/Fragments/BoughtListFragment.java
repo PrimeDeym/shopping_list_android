@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,34 +34,55 @@ public class BoughtListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bought_list, container, false);
+
         helper = new SLDatabaseHelper(getContext());
         textTitle = getActivity().getTitle().toString();
-
-        db = helper.getWritableDatabase();
         listView = (ListView) view.findViewById(R.id.bought_product_listView);
+
+        initFab();
         showProduct();
+
         return view;
     }
 
+    private void initFab() {
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    helper.dropProductTable(textTitle);
+                    Toast.makeText(getContext(), "Купленые товары удалены", Toast.LENGTH_SHORT).show();
+                    showProduct();
+                }
+            });
+        }
+    }
+
     public void showProduct() {
-        cursor = db.query(SLDatabaseHelper.TABLE_NAME,
-                new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
-                SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
-                new String[]{"YES", textTitle},
-                null, null, null);
-        CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
-                android.R.layout.simple_list_item_1,
-                cursor,
-                new String[]{SLDatabaseHelper.COL_NAME},
-                new int[]{android.R.id.text1}, 0);
-        listView.setAdapter(adapter);
+        db = helper.getWritableDatabase();
+        try {
+            cursor = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
+                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
+                    SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+                    new String[]{"YES", textTitle},
+                    null, null, null);
+            CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
+                    android.R.layout.simple_list_item_1,
+                    cursor,
+                    new String[]{SLDatabaseHelper.COL_NAME},
+                    new int[]{android.R.id.text1}, 0);
+            listView.setAdapter(adapter);
+        } catch (SQLException e) {
+            Toast.makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateCursor() {
         try {
             helper = new SLDatabaseHelper(getContext());
             db = helper.getReadableDatabase();
-            cursorNew = db.query(SLDatabaseHelper.TABLE_NAME,
+            cursorNew = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
                     new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
                     SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
                     new String[]{"YES", textTitle},

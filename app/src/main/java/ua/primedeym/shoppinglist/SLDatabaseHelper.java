@@ -10,7 +10,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "shoppingListDB";
     public static final int DB_VERSION = 7;
 
-    public static final String TABLE_NAME = "Products";
+    public static final String PRODUCTS_TABLE_NAME = "Products";
     public static final String COL_NAME = "NAME";
     public static final String COL_MAGAZINE = "MAGAZINE";
     public static final String COL_BOUGHT = "BOUGHT";
@@ -26,7 +26,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String queryProduct = "create table " + TABLE_NAME
+        String queryProduct = "create table " + PRODUCTS_TABLE_NAME
                 + "(_id integer primary key autoincrement, "
                 + COL_NAME + " TEXT, "
                 + COL_MAGAZINE + " TEXT, "
@@ -40,7 +40,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("drop table if exists " + TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + PRODUCTS_TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + MAGAZINE_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
@@ -51,7 +51,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_NAME, name);
         contentValues.put(COL_MAGAZINE, magazine);
         contentValues.put(COL_BOUGHT, "NO");
-        db.insert(TABLE_NAME, null, contentValues);
+        db.insert(PRODUCTS_TABLE_NAME, null, contentValues);
 
     }
 
@@ -67,15 +67,23 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_BOUGHT, "YES");
-        sqLiteDatabase.update(TABLE_NAME, contentValues, "_id = ?", new String[] {String.valueOf(rowID)});
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?", new String[] {String.valueOf(rowID)});
     }
 
-    public void dropProductTable(){
+    public void dropProductTable(String magazine){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(TABLE_NAME, null, null);
+        String selections = COL_MAGAZINE + " = ? and " + COL_BOUGHT + " = ? ";
+        String[] selectionArgs = new String[] {magazine, "YES"};
+        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, selections, selectionArgs);
     }
     public void dropListTable(){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, null, null);
+    }
+
+    public void deleteList(long rowId) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, "_id = " + String.valueOf(rowId), null);
+        //sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + magazine, null);
     }
 }

@@ -29,12 +29,11 @@ public class BuyListFragment extends Fragment {
     protected View view;
     private SQLiteDatabase db;
     private Cursor cursor;
-    ListView listView;
-    String textTitle, productName;
-    SLDatabaseHelper helper;
+    private ListView listView;
+    private String textTitle, productName;
+    private SLDatabaseHelper helper;
     CursorAdapter adapter;
-    EditText inputText;
-    Button cancelButton, addButton;
+    private EditText inputText;
 
     public BuyListFragment() {
     }
@@ -43,7 +42,11 @@ public class BuyListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_buy, container, false);
+
+        helper = new SLDatabaseHelper(getContext());
         textTitle = getActivity().getTitle().toString();
+        initFab();
+
         listView = (ListView) view.findViewById(R.id.buy_product_listView);
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,26 +59,29 @@ public class BuyListFragment extends Fragment {
                 updateCursor();
             }
         });
-        helper = new SLDatabaseHelper(getContext());
+        return view;
+    }
 
+    private void initFab(){
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    createProductNew();
+                    createProduct();
                 }
             });
         }
-        return view;
     }
 
-    public void createProductNew() {
+    private void createProduct() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
+        dialogTitle.setText("Название товара");
         inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
-        addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +94,7 @@ public class BuyListFragment extends Fragment {
 
             }
         });
-        cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,10 +104,10 @@ public class BuyListFragment extends Fragment {
         dialog.show();
     }
 
-    public void showProduct() {
+    private void showProduct() {
         db = helper.getWritableDatabase();
         try {
-            cursor = db.query(SLDatabaseHelper.TABLE_NAME,
+            cursor = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
                     new String[]{"_id", SLDatabaseHelper.COL_NAME},
                     SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
@@ -118,11 +124,11 @@ public class BuyListFragment extends Fragment {
         }
     }
 
-    public void updateCursor() {
+    private void updateCursor() {
         helper = new SLDatabaseHelper(getContext());
         db = helper.getWritableDatabase();
         try {
-            Cursor cursorNew = db.query(SLDatabaseHelper.TABLE_NAME,
+            Cursor cursorNew = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
                     new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
                     SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
