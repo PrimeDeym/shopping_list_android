@@ -124,15 +124,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_add_products:
+            case R.id.drop_table:
                 helper.dropListTable();
                 onResume();
                 Toast.makeText(MainActivity.this, "База данных списков покупок обнулена", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.drop_table:
-                helper.dropProductTable();
-                onResume();
-                Toast.makeText(MainActivity.this, "База данных обнулена", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

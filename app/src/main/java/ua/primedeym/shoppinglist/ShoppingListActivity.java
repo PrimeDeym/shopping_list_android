@@ -37,7 +37,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         intentExtra = intent.getStringExtra("magazine");
-        setTitle(intentExtra);
+        setTitle("Список покупок: " + intentExtra);
 
         title = getTitle().toString();
 

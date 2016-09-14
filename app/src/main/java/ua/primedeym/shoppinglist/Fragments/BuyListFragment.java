@@ -1,18 +1,19 @@
 package ua.primedeym.shoppinglist.Fragments;
 
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,14 +26,15 @@ import ua.primedeym.shoppinglist.SLDatabaseHelper;
 
 public class BuyListFragment extends Fragment {
 
-//    protected View view;
+    protected View view;
     private SQLiteDatabase db;
     private Cursor cursor;
     ListView listView;
-    String textTitle, listName;
+    String textTitle, productName;
     SLDatabaseHelper helper;
     CursorAdapter adapter;
     EditText inputText;
+    Button cancelButton, addButton;
 
     public BuyListFragment() {
     }
@@ -40,7 +42,7 @@ public class BuyListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_buy, container, false);
+        view = inflater.inflate(R.layout.fragment_buy, container, false);
         textTitle = getActivity().getTitle().toString();
         listView = (ListView) view.findViewById(R.id.buy_product_listView);
         listView.setClickable(true);
@@ -61,37 +63,39 @@ public class BuyListFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    createProduct();
+                    createProductNew();
                 }
             });
         }
         return view;
     }
 
-
-
-    private void createProduct() {
-        inputText = new EditText(getContext());
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        alertDialog.setTitle("Добавить товар");
-        alertDialog.setView(inputText);
-        alertDialog.setCancelable(false);
-        alertDialog.setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
+    public void createProductNew() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+        inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
+        addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                listName = String.valueOf(inputText.getText());
-                helper.insertProduct(listName, textTitle);
+            public void onClick(View view) {
+                productName = inputText.getText().toString();
+                helper.insertProduct(productName, textTitle);
+                Toast.makeText(getContext(), "Вы добавили товар "
+                        + inputText.getText().toString(), Toast.LENGTH_SHORT).show();
                 updateCursor();
-            }
-        });
-        alertDialog.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
+                inputText.setText(" ");
 
-        alertDialog.show();
+            }
+        });
+        cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void showProduct() {
@@ -109,7 +113,7 @@ public class BuyListFragment extends Fragment {
                     new String[]{SLDatabaseHelper.COL_NAME},
                     new int[]{android.R.id.text1}, 0);
             listView.setAdapter(adapter);
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
         }
     }

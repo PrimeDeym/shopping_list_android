@@ -21,10 +21,6 @@
             android:name=".ShoppingListActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddProduct"
-            android:label="Добавить товар"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

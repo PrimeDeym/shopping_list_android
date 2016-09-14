@@ -38,6 +38,7 @@ public class BoughtListFragment extends Fragment {
 
         db = helper.getWritableDatabase();
         listView = (ListView) view.findViewById(R.id.bought_product_listView);
+        showProduct();
         return view;
     }
 
