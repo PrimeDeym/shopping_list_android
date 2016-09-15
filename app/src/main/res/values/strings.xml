@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Список покупок</string>
+    <string name="app_name">Покупки</string>
     <string name="add_product">Добавить товар</string>
     <string name="delete_products">Очистить список</string>
     <string name="AddProduct_activity_title">Добавить товар в список</string>

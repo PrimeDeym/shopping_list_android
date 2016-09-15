@@ -1,5 +1,7 @@
 package ua.primedeym.shoppinglist.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -37,12 +40,37 @@ public class BoughtListFragment extends Fragment {
 
         helper = new SLDatabaseHelper(getContext());
         textTitle = getActivity().getTitle().toString();
-        listView = (ListView) view.findViewById(R.id.bought_product_listView);
 
+        listView = (ListView) view.findViewById(R.id.bought_product_listView);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showReturnDialog(l);
+            }
+        });
         initFab();
         showProduct();
 
         return view;
+    }
+
+    public void showReturnDialog(final long rID) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Вернуть продукт в список?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        helper.updateBoughtProduct(rID);
+                        updateCursor();
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void initFab() {
@@ -108,6 +136,4 @@ public class BoughtListFragment extends Fragment {
         cursor.close();
         db.close();
     }
-
-
 }

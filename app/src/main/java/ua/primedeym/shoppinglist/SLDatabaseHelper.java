@@ -82,7 +82,17 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_BOUGHT, "YES");
-        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?", new String[] {String.valueOf(rowID)});
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?",
+                new String[] {String.valueOf(rowID)});
+    }
+
+    public void updateBoughtProduct(long rowId){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_BOUGHT, "NO");
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, "_id = ?",
+                new String[] {String.valueOf(rowId)});
+        sqLiteDatabase.close();
     }
 
     public void dropProductTable(String magazine){
