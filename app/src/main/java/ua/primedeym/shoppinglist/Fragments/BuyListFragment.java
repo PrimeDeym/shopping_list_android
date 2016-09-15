@@ -62,7 +62,7 @@ public class BuyListFragment extends Fragment {
         return view;
     }
 
-    private void initFab(){
+    private void initFab() {
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
@@ -85,13 +85,16 @@ public class BuyListFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                productName = inputText.getText().toString();
-                helper.insertProduct(productName, textTitle);
-                Toast.makeText(getContext(), "Вы добавили товар "
-                        + inputText.getText().toString(), Toast.LENGTH_SHORT).show();
-                updateCursor();
-                inputText.setText(" ");
-
+                if (inputText.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Название товара не может быть пустым", Toast.LENGTH_SHORT).show();
+                } else {
+                    productName = inputText.getText().toString();
+                    helper.insertProduct(productName, textTitle);
+                    Toast.makeText(getContext(), "Вы добавили товар "
+                            + inputText.getText().toString(), Toast.LENGTH_SHORT).show();
+                    updateCursor();
+                    inputText.setText(" ");
+                }
             }
         });
         Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);

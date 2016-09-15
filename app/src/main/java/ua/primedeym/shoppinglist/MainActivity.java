@@ -118,11 +118,15 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listName = inputText.getText().toString();
-                helper.insertShoppingList(listName);
-                Toast.makeText(MainActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
-                updateCursor();
-                inputText.setText(" ");
+                if (inputText.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Нельзя создавать пустой список", Toast.LENGTH_SHORT).show();
+                } else {
+                    listName = inputText.getText().toString();
+                    helper.insertShoppingList(listName);
+                    Toast.makeText(MainActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
+                    updateCursor();
+                    inputText.setText(" ");
+                }
 
             }
         });
