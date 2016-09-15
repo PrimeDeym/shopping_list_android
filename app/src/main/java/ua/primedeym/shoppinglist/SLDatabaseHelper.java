@@ -1,25 +1,29 @@
 package ua.primedeym.shoppinglist;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "shoppingListDB";
-    public static final int DB_VERSION = 7;
+    public static final int DB_VERSION = 11;
 
     public static final String PRODUCTS_TABLE_NAME = "Products";
     public static final String COL_NAME = "NAME";
     public static final String COL_MAGAZINE = "MAGAZINE";
     public static final String COL_BOUGHT = "BOUGHT";
 
-    //new
     public static final String MAGAZINE_TABLE_NAME = "Magazine";
     public static final String MAGAZINE_COL_NAME = "NAME";
+    public static final String MAGAZINE_COL_DATA = "DATA";
 
-    //new
     public SLDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -34,6 +38,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(queryProduct);
         String queryList = "create table " + MAGAZINE_TABLE_NAME
                 + "(_id integer primary key autoincrement, "
+                + MAGAZINE_COL_DATA + " DATA, "
                 + MAGAZINE_COL_NAME + " TEXT);";
         sqLiteDatabase.execSQL(queryList);
     }
@@ -43,6 +48,11 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table if exists " + PRODUCTS_TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + MAGAZINE_TABLE_NAME);
         onCreate(sqLiteDatabase);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onDowngrade(db, oldVersion, newVersion);
     }
 
     public void insertProduct(String name, String magazine) {
@@ -55,10 +65,15 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //TODO доделать метод даты
+    @TargetApi(Build.VERSION_CODES.N)
     public void insertShoppingList(String magazine){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, magazine);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        //"yyyy-MM-dd"
+        cv.put(MAGAZINE_COL_DATA, dateFormat.format(new Date()));
         db.insert(MAGAZINE_TABLE_NAME, null, cv);
 
     }

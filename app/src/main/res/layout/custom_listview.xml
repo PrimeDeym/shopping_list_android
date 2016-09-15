@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@string/list_icon"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:src="@mipmap/icon_list" />
+
+    <TextView
+        android:id="@+id/ctv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/image_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="data"
+        android:paddingEnd="16dp"
+        android:id="@+id/data_ctv"
+        android:layout_alignBottom="@+id/ctv_title"
+        android:layout_alignParentEnd="true"
+         />
+
+    <!--<TextView-->
+    <!--android:id="@+id/ctv_counts_all"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/ctv_title"-->
+    <!--android:layout_toEndOf="@+id/image_view"-->
+    <!--android:text="@string/counts_all_products"-->
+    <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/ctv_counts_bought"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignTop="@+id/ctv_counts_all"-->
+    <!--android:layout_marginStart="19dp"-->
+    <!--android:layout_toEndOf="@+id/ctv_counts_all"-->
+    <!--android:text="@string/bought_products"-->
+    <!--android:textColor="#00c853"-->
+    <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
+
+</RelativeLayout>

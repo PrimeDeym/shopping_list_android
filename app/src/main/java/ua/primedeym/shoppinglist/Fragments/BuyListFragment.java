@@ -123,7 +123,7 @@ public class BuyListFragment extends Fragment {
                     new int[]{android.R.id.text1}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
-            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();
         }
     }
 

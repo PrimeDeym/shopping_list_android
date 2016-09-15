@@ -10,4 +10,7 @@
     <string name="custom_dialog_add_button">Добавить</string>
     <string name="custom_dialog_cancel_button">Назад</string>
     <string name="custom_dialog_title">Введите название</string>
+    <string name="list_icon">List Icon</string>
+    <string name="counts_all_products">Всего товаров: 0</string>
+    <string name="bought_products">Куплено: 0</string>
 </resources>

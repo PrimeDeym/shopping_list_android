@@ -18,11 +18,13 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.widget.AdapterView.*;
+import static android.widget.AdapterView.AdapterContextMenuInfo;
+import static android.widget.AdapterView.OnItemClickListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,10 +50,11 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
+                TextView tv = (TextView) ll.findViewById(R.id.ctv_title); // get the child text view
+                final String text = tv.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
-                TextView text = (TextView) view;
-                String text1 = text.getText().toString();
-                intent.putExtra("magazine", text1);
+                intent.putExtra("magazine", text);
                 startActivity(intent);
             }
         });
@@ -81,10 +84,13 @@ public class MainActivity extends AppCompatActivity {
         try {
             db = helper.getReadableDatabase();
             cursor = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME},
+                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, null);
-            adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                    cursor, new String[]{SLDatabaseHelper.MAGAZINE_COL_NAME}, new int[]{android.R.id.text1}, 0);
+            adapter = new SimpleCursorAdapter(this,
+                    R.layout.custom_listview,
+                    cursor,
+                    new String[]{SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
+                    new int[]{R.id.ctv_title, R.id.data_ctv}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
             Toast.makeText(MainActivity.this, "База данных не доступна", Toast.LENGTH_SHORT).show();
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             helper = new SLDatabaseHelper(this);
             db = helper.getReadableDatabase();
             Cursor cursorNew = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME},
+                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
@@ -127,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     updateCursor();
                     inputText.setText(" ");
                 }
-
             }
         });
         Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
@@ -163,9 +168,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.drop_table:
                 helper.dropListTable();
-
                 onResume();
-                Toast.makeText(MainActivity.this, "База данных списков покупок обнулена + колонки " + cursor.getCount(),
+                Toast.makeText(MainActivity.this, "База данных списков покупок обнулена",
                         Toast.LENGTH_SHORT).show();
                 return true;
             default:
