@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:id="@+id/container"
-    tools:context="ua.primedeym.shoppinglist.MainActivity">
+    tools:context=".ListsActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

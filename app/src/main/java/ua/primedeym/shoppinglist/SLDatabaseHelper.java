@@ -62,10 +62,10 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_MAGAZINE, magazine);
         contentValues.put(COL_BOUGHT, "NO");
         db.insert(PRODUCTS_TABLE_NAME, null, contentValues);
+        db.close();
 
     }
 
-    //TODO доделать метод даты
     @TargetApi(Build.VERSION_CODES.N)
     public void insertShoppingList(String magazine){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -75,6 +75,7 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         //"yyyy-MM-dd"
         cv.put(MAGAZINE_COL_DATA, dateFormat.format(new Date()));
         db.insert(MAGAZINE_TABLE_NAME, null, cv);
+        db.close();
 
     }
 
@@ -84,7 +85,26 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_BOUGHT, "YES");
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?",
                 new String[] {String.valueOf(rowID)});
+        sqLiteDatabase.close();
     }
+
+    public void updateList(long rowId, String newName, String oldName ){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(MAGAZINE_COL_NAME, newName);
+        sqLiteDatabase.update(MAGAZINE_TABLE_NAME, cv, "_id = " + rowId, null);
+        updateProduct(newName, oldName);
+        sqLiteDatabase.close();
+    }
+
+    public void updateProduct(String newName, String oldName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_MAGAZINE, newName);
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, COL_MAGAZINE + " = ?", new String[] {oldName});
+        sqLiteDatabase.close();
+    }
+
 
     public void updateBoughtProduct(long rowId){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -106,9 +126,15 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, null, null);
     }
 
-    public void deleteList(long rowId) {
+    public void deleteList(long rowId, String magazine) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, "_id = " + String.valueOf(rowId), null);
-        //sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + magazine, null);
+        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[] {magazine});
+    }
+
+    public void deleteProduct(long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
+        db.close();
     }
 }

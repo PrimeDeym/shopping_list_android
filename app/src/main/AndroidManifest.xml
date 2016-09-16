@@ -9,12 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ListsActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ShoppingListActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ListsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"

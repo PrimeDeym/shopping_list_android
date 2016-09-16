@@ -68,6 +68,13 @@ public class BoughtListFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
+                })
+                .setNeutralButton("Удалить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        helper.deleteProduct(rID);
+                        updateCursor();
+                    }
                 });
         AlertDialog alert = builder.create();
         alert.show();
