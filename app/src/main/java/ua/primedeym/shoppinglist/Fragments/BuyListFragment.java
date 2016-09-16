@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +53,9 @@ public class BuyListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView text = (TextView) view;
-                String text1 = text.getText().toString();
-                Toast.makeText(getContext(), "Вы купили " + text1, Toast.LENGTH_SHORT).show();
+                RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
+                TextView tv = (TextView) ll.findViewById(R.id.ctv_title); // get the child text view
+                Toast.makeText(getContext(), "Вы купили " + tv.getText().toString(), Toast.LENGTH_SHORT).show();
                 helper.updateStatus(l);
                 updateCursor();
             }
@@ -117,10 +118,10 @@ public class BuyListFragment extends Fragment {
                     null, null, null);
 
             adapter = new SimpleCursorAdapter(getContext(),
-                    android.R.layout.simple_list_item_1,
+                    R.layout.custom_listview_buy_fragment,
                     cursor,
                     new String[]{SLDatabaseHelper.COL_NAME},
-                    new int[]{android.R.id.text1}, 0);
+                    new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
             Toast.makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();

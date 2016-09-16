@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="data"
+        android:text="@string/data_custom_listview"
         android:paddingEnd="16dp"
         android:id="@+id/data_ctv"
         android:layout_alignBottom="@+id/ctv_title"

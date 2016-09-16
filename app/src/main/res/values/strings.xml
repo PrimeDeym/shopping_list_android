@@ -6,11 +6,12 @@
     <string name="button_add">Добавить</string>
     <string name="favorite_button_text">В избранное</string>
     <string name="enter_product_name">Введите название товара</string>
-    <string name="drop_table_database">Удалить таблицу</string>
+    <string name="drop_table_database">Удалить все списки</string>
     <string name="custom_dialog_add_button">Добавить</string>
     <string name="custom_dialog_cancel_button">Назад</string>
     <string name="custom_dialog_title">Введите название</string>
     <string name="list_icon">List Icon</string>
     <string name="counts_all_products">Всего товаров: 0</string>
     <string name="bought_products">Куплено: 0</string>
+    <string name="data_custom_listview">data</string>
 </resources>

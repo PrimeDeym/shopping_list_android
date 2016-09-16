@@ -1,6 +1,7 @@
 package ua.primedeym.shoppinglist;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -29,6 +30,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
     SLDatabaseHelper helper;
+    FragmentManager fm;
     SQLiteDatabase db;
     Cursor cursor;
     ListView listView;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fm = getFragmentManager();
 
         setTitle("Списки покупок");
         helper = new SLDatabaseHelper(this);
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         initFab();
         showShoppingList();
+
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, null);
             adapter = new SimpleCursorAdapter(this,
-                    R.layout.custom_listview,
+                    R.layout.custom_listview_main_activity,
                     cursor,
                     new String[]{SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
                     new int[]{R.id.ctv_title, R.id.data_ctv}, 0);

@@ -96,10 +96,10 @@ public class BoughtListFragment extends Fragment {
                     new String[]{"YES", textTitle},
                     null, null, null);
             CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
-                    android.R.layout.simple_list_item_1,
+                    R.layout.custom_listview_bought_fragment,
                     cursor,
                     new String[]{SLDatabaseHelper.COL_NAME},
-                    new int[]{android.R.id.text1}, 0);
+                    new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
             Toast.makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();
