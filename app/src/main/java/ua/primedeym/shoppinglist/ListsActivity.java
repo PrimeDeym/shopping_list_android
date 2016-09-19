@@ -83,7 +83,7 @@ public class ListsActivity extends AppCompatActivity {
         AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         TextView tv = (TextView) adapterContextMenuInfo.targetView.findViewById(R.id.ctv_title);
         final String oldName = tv.getText().toString();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case UPDATE_MENU:
                 final Dialog dialog = new Dialog(this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -122,15 +122,6 @@ public class ListsActivity extends AppCompatActivity {
                 updateCursor();
                 return true;
         }
-
-        // TODO DELETE
-//        if (item.getItemId() == DELETE_MENU) {
-//            AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-//            TextView tv = (TextView) adapterContextMenuInfo.targetView.findViewById(R.id.ctv_title);
-//            helper.deleteList(adapterContextMenuInfo.id, tv.getText().toString());
-//            updateCursor();
-//            return true;
-//        }
         return super.onContextItemSelected(item);
     }
 
@@ -185,10 +176,12 @@ public class ListsActivity extends AppCompatActivity {
                     helper.insertShoppingList(listName);
                     Toast.makeText(ListsActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
                     updateCursor();
-                    inputText.setText(" ");
+                    inputText.setText("");
+                    dialog.show();
                 }
             }
         });
+
         Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +216,7 @@ public class ListsActivity extends AppCompatActivity {
             case R.id.drop_table:
                 helper.dropListTable();
                 onResume();
-                Toast.makeText(ListsActivity.this, "База данных списков покупок обнулена",
+                Toast.makeText(ListsActivity.this, "Все списки удалены",
                         Toast.LENGTH_SHORT).show();
                 return true;
             default:

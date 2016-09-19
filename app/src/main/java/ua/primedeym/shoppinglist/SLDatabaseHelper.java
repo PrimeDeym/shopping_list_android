@@ -68,14 +68,14 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     @TargetApi(Build.VERSION_CODES.N)
     public void insertShoppingList(String magazine){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, magazine);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         //"yyyy-MM-dd"
         cv.put(MAGAZINE_COL_DATA, dateFormat.format(new Date()));
-        db.insert(MAGAZINE_TABLE_NAME, null, cv);
-        db.close();
+        sqLiteDatabase.insert(MAGAZINE_TABLE_NAME, null, cv);
+        sqLiteDatabase.close();
 
     }
 
@@ -130,11 +130,12 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, "_id = " + String.valueOf(rowId), null);
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[] {magazine});
+        sqLiteDatabase.close();
     }
 
     public void deleteProduct(long id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
-        db.close();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
+        sqLiteDatabase.close();
     }
 }

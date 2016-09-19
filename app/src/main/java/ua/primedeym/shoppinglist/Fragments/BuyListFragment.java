@@ -94,7 +94,8 @@ public class BuyListFragment extends Fragment {
                     Toast.makeText(getContext(), "Вы добавили товар "
                             + inputText.getText().toString(), Toast.LENGTH_SHORT).show();
                     updateCursor();
-                    inputText.setText(" ");
+                    inputText.setText("");
+                    dialog.show();
                 }
             }
         });
