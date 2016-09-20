@@ -1,19 +1,16 @@
 package ua.primedeym.shoppinglist;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
-public class SLDatabaseHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "shoppingListDB";
-    public static final int DB_VERSION = 11;
+    private static final String DB_NAME = "shoppingListDB";
+    private static final int DB_VERSION = 12;
 
     public static final String PRODUCTS_TABLE_NAME = "Products";
     public static final String COL_NAME = "NAME";
@@ -24,7 +21,12 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     public static final String MAGAZINE_COL_NAME = "NAME";
     public static final String MAGAZINE_COL_DATA = "DATA";
 
-    public SLDatabaseHelper(Context context) {
+    public static final String NOTE_TABLE_NAME = "Note";
+    public static final String NOTE_COL_NAME = "NAME";
+    public static final String NOTE_COL_DESCRIPTION = "DESCRIPTION";
+    public static final String NOTE_COL_DATA = "DATA";
+
+    public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -36,23 +38,47 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
                 + COL_MAGAZINE + " TEXT, "
                 + COL_BOUGHT + " TEXT);";
         sqLiteDatabase.execSQL(queryProduct);
+
         String queryList = "create table " + MAGAZINE_TABLE_NAME
                 + "(_id integer primary key autoincrement, "
                 + MAGAZINE_COL_DATA + " DATA, "
                 + MAGAZINE_COL_NAME + " TEXT);";
         sqLiteDatabase.execSQL(queryList);
+
+        String queryNote = "create table " + NOTE_TABLE_NAME
+                + "(_id integer primary key autoincrement, "
+                + NOTE_COL_DESCRIPTION + " TEXT, "
+                + NOTE_COL_DATA + " DATA, "
+                + NOTE_COL_NAME + " TEXT);";
+        sqLiteDatabase.execSQL(queryNote);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("drop table if exists " + PRODUCTS_TABLE_NAME);
         sqLiteDatabase.execSQL("drop table if exists " + MAGAZINE_TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + NOTE_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
+    }
+
+    public void insertNote(String name, String description) {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        String data = day + "/" + month;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(NOTE_COL_NAME, name);
+        cv.put(NOTE_COL_DESCRIPTION, description);
+        cv.put(NOTE_COL_DATA, data);
+        db.insert(NOTE_TABLE_NAME, null, cv);
+        db.close();
     }
 
     public void insertProduct(String name, String magazine) {
@@ -66,29 +92,32 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    public void insertShoppingList(String magazine){
+
+    public void insertShoppingList(String magazine) {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DATE);
+        int month = calendar.get(Calendar.MONTH);
+        String data = day + "/" + month;
+
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, magazine);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-        //"yyyy-MM-dd"
-        cv.put(MAGAZINE_COL_DATA, dateFormat.format(new Date()));
+        cv.put(MAGAZINE_COL_DATA, data);
         sqLiteDatabase.insert(MAGAZINE_TABLE_NAME, null, cv);
         sqLiteDatabase.close();
 
     }
 
-    public void updateStatus(long rowID){
+    public void updateStatus(long rowID) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_BOUGHT, "YES");
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?",
-                new String[] {String.valueOf(rowID)});
+                new String[]{String.valueOf(rowID)});
         sqLiteDatabase.close();
     }
 
-    public void updateList(long rowId, String newName, String oldName ){
+    public void updateList(long rowId, String newName, String oldName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, newName);
@@ -101,27 +130,28 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_MAGAZINE, newName);
-        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, COL_MAGAZINE + " = ?", new String[] {oldName});
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, COL_MAGAZINE + " = ?", new String[]{oldName});
         sqLiteDatabase.close();
     }
 
 
-    public void updateBoughtProduct(long rowId){
+    public void updateBoughtProduct(long rowId) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_BOUGHT, "NO");
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, "_id = ?",
-                new String[] {String.valueOf(rowId)});
+                new String[]{String.valueOf(rowId)});
         sqLiteDatabase.close();
     }
 
-    public void dropProductTable(String magazine){
+    public void dropProductTable(String magazine) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String selections = COL_MAGAZINE + " = ? and " + COL_BOUGHT + " = ? ";
-        String[] selectionArgs = new String[] {magazine, "YES"};
+        String[] selectionArgs = new String[]{magazine, "YES"};
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, selections, selectionArgs);
     }
-    public void dropListTable(){
+
+    public void dropListTable() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, null, null);
     }
@@ -129,11 +159,11 @@ public class SLDatabaseHelper extends SQLiteOpenHelper {
     public void deleteList(long rowId, String magazine) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, "_id = " + String.valueOf(rowId), null);
-        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[] {magazine});
+        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[]{magazine});
         sqLiteDatabase.close();
     }
 
-    public void deleteProduct(long id){
+    public void deleteProduct(long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
         sqLiteDatabase.close();

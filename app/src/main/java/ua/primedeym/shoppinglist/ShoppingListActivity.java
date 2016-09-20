@@ -23,7 +23,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     List<Fragment> listFragment;
     List<String> titleFragment;
     String intentExtra, title, listName;
-    SLDatabaseHelper helper;
+    DBHelper helper;
     EditText inputText;
     Fragment frag;
 
@@ -33,7 +33,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping_list);
         listFragment = new ArrayList<>();
         titleFragment = new ArrayList<>();
-        helper = new SLDatabaseHelper(this);
+        helper = new DBHelper(this);
 
         Intent intent = getIntent();
         intentExtra = intent.getStringExtra("magazine");

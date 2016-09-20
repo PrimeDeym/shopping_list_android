@@ -28,7 +28,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 
 
 public class ListsActivity extends AppCompatActivity {
-    SLDatabaseHelper helper;
+    DBHelper helper;
     SQLiteDatabase db;
     Cursor cursor;
     ListView listView;
@@ -45,7 +45,8 @@ public class ListsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lists);
 
         setTitle("Списки покупок");
-        helper = new SLDatabaseHelper(this);
+        helper = new DBHelper(this);
+        listView = (ListView) findViewById(R.id.main_list_view);
 
         initListView();
         initFab();
@@ -54,7 +55,6 @@ public class ListsActivity extends AppCompatActivity {
     }
 
     private void initListView(){
-        listView = (ListView) findViewById(R.id.main_list_view);
         listView.setClickable(true);
         registerForContextMenu(listView);
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -128,13 +128,13 @@ public class ListsActivity extends AppCompatActivity {
     public void showShoppingList() {
         try {
             db = helper.getReadableDatabase();
-            cursor = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
+            cursor = db.query(DBHelper.MAGAZINE_TABLE_NAME,
+                    new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, null);
             adapter = new SimpleCursorAdapter(this,
                     R.layout.custom_listview_lists_activity,
                     cursor,
-                    new String[]{SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
+                    new String[]{DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
                     new int[]{R.id.ctv_title, R.id.data_ctv}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
@@ -144,10 +144,10 @@ public class ListsActivity extends AppCompatActivity {
 
     public void updateCursor() {
         try {
-            helper = new SLDatabaseHelper(this);
+//            helper = new DBHelper(this);
             db = helper.getReadableDatabase();
-            Cursor cursorNew = db.query(SLDatabaseHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.MAGAZINE_COL_NAME, SLDatabaseHelper.MAGAZINE_COL_DATA},
+            Cursor cursorNew = db.query(DBHelper.MAGAZINE_TABLE_NAME,
+                    new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
@@ -233,7 +233,9 @@ public class ListsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cursor.close();
-        db.close();
+        if (db != null) {
+            db.close();
+            cursor.close();
+        }
     }
 }

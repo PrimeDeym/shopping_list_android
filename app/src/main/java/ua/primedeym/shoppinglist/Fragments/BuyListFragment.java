@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ua.primedeym.shoppinglist.R;
-import ua.primedeym.shoppinglist.SLDatabaseHelper;
+import ua.primedeym.shoppinglist.DBHelper;
 
 public class BuyListFragment extends Fragment {
 
@@ -32,7 +32,7 @@ public class BuyListFragment extends Fragment {
     private Cursor cursor;
     private ListView listView;
     private String textTitle, productName;
-    private SLDatabaseHelper helper;
+    private DBHelper helper;
     CursorAdapter adapter;
     private EditText inputText;
 
@@ -44,7 +44,7 @@ public class BuyListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_buy, container, false);
 
-        helper = new SLDatabaseHelper(getContext());
+        helper = new DBHelper(getContext());
         textTitle = getActivity().getTitle().toString();
         initFab();
 
@@ -112,16 +112,16 @@ public class BuyListFragment extends Fragment {
     private void showProduct() {
         db = helper.getWritableDatabase();
         try {
-            cursor = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_NAME},
-                    SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+            cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
+                    new String[]{"_id", DBHelper.COL_NAME},
+                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
                     null, null, null);
 
             adapter = new SimpleCursorAdapter(getContext(),
                     R.layout.custom_listview_buy_fragment,
                     cursor,
-                    new String[]{SLDatabaseHelper.COL_NAME},
+                    new String[]{DBHelper.COL_NAME},
                     new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
@@ -130,12 +130,12 @@ public class BuyListFragment extends Fragment {
     }
 
     private void updateCursor() {
-        helper = new SLDatabaseHelper(getContext());
+        helper = new DBHelper(getContext());
         db = helper.getWritableDatabase();
         try {
-            Cursor cursorNew = db.query(SLDatabaseHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", SLDatabaseHelper.COL_MAGAZINE, SLDatabaseHelper.COL_NAME},
-                    SLDatabaseHelper.COL_BOUGHT + " = ? and " + SLDatabaseHelper.COL_MAGAZINE + " = ?",
+            Cursor cursorNew = db.query(DBHelper.PRODUCTS_TABLE_NAME,
+                    new String[]{"_id", DBHelper.COL_MAGAZINE, DBHelper.COL_NAME},
+                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
                     null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
