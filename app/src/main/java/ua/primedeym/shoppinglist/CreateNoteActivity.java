@@ -16,14 +16,14 @@ public class CreateNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
+        helper = new DBHelper(this);
         title = (EditText) findViewById(R.id.et_note_title);
         description = (EditText) findViewById(R.id.et_note_description);
     }
 
     public void addNote(View view) {
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        helper.insertNote(title.getText().toString(), description.getText().toString());
-        Toast.makeText(this, "Hello world", Toast.LENGTH_SHORT).show();
+        helper.insertNote(title.getText().toString(), description.getText().toString());
+        Toast.makeText(this, "Заметка создана", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

@@ -7,10 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NoteActivity extends AppCompatActivity {
@@ -58,6 +62,17 @@ public class NoteActivity extends AppCompatActivity {
     private void initListView() {
         listView.setClickable(true);
         registerForContextMenu(listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), NoteResultActivity.class);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                String title = text.getText().toString();
+                intent.putExtra("Title", title);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initFab() {
@@ -76,6 +91,26 @@ public class NoteActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
         startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.drop_table:
+                helper.deleteNoteAllListForTest();
+                onResume();
+                Toast.makeText(this, "Заметки удалены",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

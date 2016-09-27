@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     ViewPagerAdapter adapter;
     List<Fragment> listFragment;
     List<String> titleFragment;
-    String intentExtra, title, listName;
+    String intentExtra, title;
     DBHelper helper;
-    EditText inputText;
     Fragment frag;
 
     @Override
@@ -68,30 +66,6 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void createProduct() {
-//        inputText = new EditText(this);
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-//        alertDialog.setTitle("Добавить товар");
-//        alertDialog.setView(inputText);
-//        alertDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                listName = String.valueOf(inputText.getText());
-//                helper.insertProduct(listName, title);
-//                frag = listFragment.get(0);
-//                frag.onResume();
-//                Toast.makeText(getApplicationContext(), "Вы создали товар " + listName, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        alertDialog.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        alertDialog.show();
-//    }
 
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());

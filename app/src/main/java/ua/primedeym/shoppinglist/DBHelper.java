@@ -71,7 +71,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
-        String data = day + "/" + month;
+        int year = calendar.get(Calendar.YEAR);
+        String data = day + "/" + month + "/" + year;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(NOTE_COL_NAME, name);
@@ -97,7 +98,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH);
-        String data = day + "/" + month;
+        int year = calendar.get(Calendar.YEAR);
+        String data = day + "/" + month + "/" + year;
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -154,6 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void dropListTable() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, null, null);
+        sqLiteDatabase.close();
     }
 
     public void deleteList(long rowId, String magazine) {
@@ -166,6 +169,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteProduct(long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
+        sqLiteDatabase.close();
+    }
+
+    public void deleteNoteAllListForTest(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
         sqLiteDatabase.close();
     }
 }
