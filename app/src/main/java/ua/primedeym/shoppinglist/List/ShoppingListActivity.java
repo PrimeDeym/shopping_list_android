@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist;
+package ua.primedeym.shoppinglist.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.Fragments.BoughtListFragment;
 import ua.primedeym.shoppinglist.Fragments.BuyListFragment;
+import ua.primedeym.shoppinglist.R;
 
 public class ShoppingListActivity extends AppCompatActivity {
     ViewPager viewPager;
@@ -21,7 +23,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     ViewPagerAdapter adapter;
     List<Fragment> listFragment;
     List<String> titleFragment;
-    String intentExtra, title;
+    String intentExtra;
     DBHelper helper;
     Fragment frag;
 
@@ -37,15 +39,8 @@ public class ShoppingListActivity extends AppCompatActivity {
         intentExtra = intent.getStringExtra("magazine");
         setTitle(intentExtra);
 
-        title = getTitle().toString();
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

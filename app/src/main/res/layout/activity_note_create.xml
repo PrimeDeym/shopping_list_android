@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ua.primedeym.shoppinglist.CreateNoteActivity">
+    tools:context="ua.primedeym.shoppinglist.Note.CreateNoteActivity">
 
     <EditText
         android:layout_width="300dp"
@@ -38,7 +38,6 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_alignTop="@+id/button_note_add"
-        android:layout_alignStart="@+id/editText"
         android:id="@+id/et_note_title"
         android:hint="Название заметки" />
 </RelativeLayout>

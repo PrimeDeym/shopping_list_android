@@ -21,24 +21,24 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ListsActivity"
+            android:name=".List.ListsActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShoppingListActivity"
-            android:parentActivityName=".ListsActivity"
+            android:name=".List.ShoppingListActivity"
+            android:parentActivityName=".List.ListsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NoteActivity"
+            android:name=".Note.NoteActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CreateNoteActivity"
-            android:parentActivityName=".NoteActivity"
+            android:name=".Note.CreateNoteActivity"
+            android:parentActivityName=".Note.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NoteResultActivity"
-            android:parentActivityName=".NoteActivity"></activity>
+            android:name=".Note.NoteResultActivity"
+            android:parentActivityName=".Note.NoteActivity"/>
     </application>
 
 </manifest>

@@ -16,31 +16,31 @@
         android:id="@+id/ctv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/image_view"
+        android:paddingEnd="16dp"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="18sp"
-        android:paddingEnd="16dp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/image_view" />
+        android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/data_ctv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:text="@string/data_custom_listview"
-        android:paddingEnd="16dp"
-        android:id="@+id/data_ctv"
         android:layout_above="@+id/ctv_title"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="16dp"
+        android:text="@string/data_custom_listview"
+        android:textSize="12sp" />
 
     <!--<TextView-->
-    <!--android:id="@+id/ctv_counts_all"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/ctv_title"-->
-    <!--android:layout_toEndOf="@+id/image_view"-->
-    <!--android:text="@string/counts_all_products"-->
-    <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
+        <!--android:id="@+id/ctv_counts_all"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/ctv_title"-->
+        <!--android:layout_toEndOf="@+id/image_view"-->
+        <!--android:text="@string/counts_all_products"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
 
     <!--<TextView-->
     <!--android:id="@+id/ctv_counts_bought"-->

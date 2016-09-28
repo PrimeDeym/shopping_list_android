@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist;
+package ua.primedeym.shoppinglist.Note;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ua.primedeym.shoppinglist.DBHelper;
+import ua.primedeym.shoppinglist.R;
 
 public class NoteActivity extends AppCompatActivity {
     SQLiteDatabase db;

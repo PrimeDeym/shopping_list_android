@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist;
+package ua.primedeym.shoppinglist.List;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ua.primedeym.shoppinglist.DBHelper;
+import ua.primedeym.shoppinglist.R;
 
 import static android.widget.AdapterView.AdapterContextMenuInfo;
 import static android.widget.AdapterView.OnItemClickListener;
@@ -51,7 +54,6 @@ public class ListsActivity extends AppCompatActivity {
         initListView();
         initFab();
         showShoppingList();
-
     }
 
     private void initListView(){

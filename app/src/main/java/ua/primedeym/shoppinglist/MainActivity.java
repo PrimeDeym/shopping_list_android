@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import ua.primedeym.shoppinglist.List.ListsActivity;
+import ua.primedeym.shoppinglist.Note.NoteActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView versionApp;
@@ -18,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        versionApp();
+    }
+
+    private void versionApp(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int data  = calendar.get(Calendar.DATE);
