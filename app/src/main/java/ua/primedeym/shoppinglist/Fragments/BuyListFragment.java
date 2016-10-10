@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,8 +24,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ua.primedeym.shoppinglist.R;
 import ua.primedeym.shoppinglist.DBHelper;
+import ua.primedeym.shoppinglist.R;
+
+import static ua.primedeym.shoppinglist.CONST.DELETE_MENU;
+import static ua.primedeym.shoppinglist.CONST.UPDATE_MENU;
 
 public class BuyListFragment extends Fragment {
 
@@ -49,18 +54,83 @@ public class BuyListFragment extends Fragment {
         initFab();
 
         listView = (ListView) view.findViewById(R.id.buy_product_listView);
+        initListView();
+        return view;
+    }
+
+    private void initListView() {
         listView.setClickable(true);
+        registerForContextMenu(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
-                TextView tv = (TextView) ll.findViewById(R.id.ctv_title); // get the child text view
+                RelativeLayout rl = (RelativeLayout) view; // get the parent layout view
+                TextView tv = (TextView) rl.findViewById(R.id.ctv_title); // get the child text view
                 Toast.makeText(getContext(), "Вы купили " + tv.getText().toString(), Toast.LENGTH_SHORT).show();
                 helper.updateStatus(l);
                 updateCursor();
             }
         });
-        return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, UPDATE_MENU, 0, R.string.edit);
+        menu.add(0, DELETE_MENU, 0, R.string.delete);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final AdapterView.AdapterContextMenuInfo adapter = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        TextView tv = (TextView) adapter.targetView.findViewById(R.id.ctv_title);
+        switch (item.getItemId()) {
+            case UPDATE_MENU:
+                showDialog(adapter.id, tv.getText().toString());
+                return true;
+            case DELETE_MENU:
+                helper.deleteProduct(adapter.id);
+                updateCursor();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    private Dialog showDialog(final long id, String title) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
+        dialogTitle.setText("Новое название");
+        inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
+        inputText.setText(title);
+        inputText.setSelection(inputText.getText().length());
+        Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        addButton.setText("Изменить");
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (inputText.getText().toString().equals("")) {
+                    Toast.makeText(getContext(),
+                            "Название не может быть пустым",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    helper.updateProductList(inputText.getText().toString(), id);
+                    updateCursor();
+                    dialog.dismiss();
+                }
+            }
+        });
+        Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        return dialog;
     }
 
     private void initFab() {
@@ -87,7 +157,7 @@ public class BuyListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (inputText.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "Название товара не может быть пустым", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Название не может быть пустым", Toast.LENGTH_SHORT).show();
                 } else {
                     productName = inputText.getText().toString();
                     helper.insertProduct(productName, textTitle);
@@ -110,8 +180,9 @@ public class BuyListFragment extends Fragment {
     }
 
     private void showProduct() {
-        db = helper.getWritableDatabase();
+
         try {
+            db = helper.getWritableDatabase();
             cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
                     new String[]{"_id", DBHelper.COL_NAME},
                     DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
@@ -129,7 +200,7 @@ public class BuyListFragment extends Fragment {
         }
     }
 
-    private void updateCursor() {
+    public void updateCursor() {
         helper = new DBHelper(getContext());
         db = helper.getWritableDatabase();
         try {

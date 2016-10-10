@@ -6,31 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
 import ua.primedeym.shoppinglist.List.ListsActivity;
 import ua.primedeym.shoppinglist.Note.NoteActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView versionApp;
+    private DBHelper helper;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        helper = new DBHelper(this);
         versionApp();
     }
 
-    private void versionApp(){
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int data  = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
+    private void versionApp() {
         versionApp = (TextView) findViewById(R.id.text_version_app);
-        versionApp.setText(year + " Beta v. " + data + month);
+        versionApp.setText("Beta in progress " + helper.getCurrentData());
     }
 
     public void startListActivity(View view) {

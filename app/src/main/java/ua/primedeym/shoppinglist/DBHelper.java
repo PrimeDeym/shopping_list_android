@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.Calendar;
 
 public class DBHelper extends SQLiteOpenHelper {
-
     private static final String DB_NAME = "shoppingListDB";
     private static final int DB_VERSION = 12;
 
@@ -51,7 +50,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + NOTE_COL_DATA + " DATA, "
                 + NOTE_COL_NAME + " TEXT);";
         sqLiteDatabase.execSQL(queryNote);
-
     }
 
     @Override
@@ -67,17 +65,20 @@ public class DBHelper extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    public void insertNote(String name, String description) {
+    String getCurrentData(){
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
-        String data = day + "/" + month + "/" + year;
+        return day + "/" + month + "/" + year;
+    }
+
+    public void insertNote(String name, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(NOTE_COL_NAME, name);
         cv.put(NOTE_COL_DESCRIPTION, description);
-        cv.put(NOTE_COL_DATA, data);
+        cv.put(NOTE_COL_DATA, getCurrentData());
         db.insert(NOTE_TABLE_NAME, null, cv);
         db.close();
     }
@@ -94,16 +95,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public void insertShoppingList(String magazine) {
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-        String data = day + "/" + month + "/" + year;
-
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, magazine);
-        cv.put(MAGAZINE_COL_DATA, data);
+        cv.put(MAGAZINE_COL_DATA, getCurrentData());
         sqLiteDatabase.insert(MAGAZINE_TABLE_NAME, null, cv);
         sqLiteDatabase.close();
     }
@@ -140,6 +135,14 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COL_MAGAZINE, newName);
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, COL_MAGAZINE + " = ?", new String[]{oldName});
+        sqLiteDatabase.close();
+    }
+
+    public void updateProductList(String name, long id){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NAME, name);
+        sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, "_id = " + id, null);
         sqLiteDatabase.close();
     }
 

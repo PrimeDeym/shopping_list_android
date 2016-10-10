@@ -23,6 +23,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ua.primedeym.shoppinglist.CONST;
 import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.R;
 
@@ -38,8 +39,6 @@ public class ListsActivity extends AppCompatActivity {
     CursorAdapter adapter;
     String listName;
     EditText inputText;
-    public static final int UPDATE_MENU = 1;
-    public static final int DELETE_MENU = 2;
 
 
     @Override
@@ -56,7 +55,7 @@ public class ListsActivity extends AppCompatActivity {
         showShoppingList();
     }
 
-    private void initListView(){
+    private void initListView() {
         listView.setClickable(true);
         registerForContextMenu(listView);
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -75,56 +74,61 @@ public class ListsActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, UPDATE_MENU, 0, "Изменить имя списка");
-        menu.add(0, DELETE_MENU, 0, "Удалить список");
+        menu.add(0, CONST.UPDATE_MENU, 0, R.string.edit);
+        menu.add(0, CONST.DELETE_MENU, 0, R.string.delete);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterContextMenuInfo adapter = (AdapterContextMenuInfo) item.getMenuInfo();
-        AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-        TextView tv = (TextView) adapterContextMenuInfo.targetView.findViewById(R.id.ctv_title);
+        TextView tv = (TextView) adapter.targetView.findViewById(R.id.ctv_title);
         final String oldName = tv.getText().toString();
         switch (item.getItemId()) {
-            case UPDATE_MENU:
-                final Dialog dialog = new Dialog(this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.custom_dialog);
-                TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
-                dialogTitle.setText("Новое название списка");
-                inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
-                Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
-                addButton.setText("Изменить");
-                addButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (inputText.getText().toString().equals("")) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Название товара не может быть пустым",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            helper.updateList(adapter.id, inputText.getText().toString(), oldName);
-                            updateCursor();
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-
+            case CONST.UPDATE_MENU:
+                showDialog(adapter.id, oldName);
                 return true;
-            case DELETE_MENU:
-                helper.deleteList(adapterContextMenuInfo.id, tv.getText().toString());
+            case CONST.DELETE_MENU:
+                helper.deleteList(adapter.id, tv.getText().toString());
                 updateCursor();
                 return true;
         }
         return super.onContextItemSelected(item);
+    }
+
+    private Dialog showDialog(final long id, final String oldName) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
+        dialogTitle.setText("Новое название");
+        inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
+        inputText.setText(oldName);
+        inputText.setSelection(inputText.getText().length());
+        Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        addButton.setText("Изменить");
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (inputText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(),
+                            "Название товара не может быть пустым",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    helper.updateList(id, inputText.getText().toString(), oldName);
+                    updateCursor();
+                    dialog.dismiss();
+                }
+            }
+        });
+        Button cancelButton = (Button) dialog.findViewById(R.id.cd_button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        return dialog;
     }
 
     public void showShoppingList() {
@@ -146,7 +150,6 @@ public class ListsActivity extends AppCompatActivity {
 
     public void updateCursor() {
         try {
-//            helper = new DBHelper(this);
             db = helper.getReadableDatabase();
             Cursor cursorNew = db.query(DBHelper.MAGAZINE_TABLE_NAME,
                     new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
@@ -180,9 +183,7 @@ public class ListsActivity extends AppCompatActivity {
                     updateCursor();
 //                    inputText.setText("");
                     dialog.dismiss();
-
                 }
-
             }
         });
 
