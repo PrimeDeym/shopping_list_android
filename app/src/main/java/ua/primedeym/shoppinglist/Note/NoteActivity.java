@@ -52,10 +52,10 @@ public class NoteActivity extends AppCompatActivity {
                     new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DATA},
                     null, null, null, null, null);
             adapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_1,
+                    R.layout.custom_listview_note_activity,
                     cursor,
-                    new String[]{DBHelper.NOTE_COL_NAME},
-                    new int[]{android.R.id.text1}, 0);
+                    new String[]{DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DATA},
+                    new int[]{R.id.textview_title, R.id.textview_data}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
             Toast.makeText(this, "База данных не доступна", Toast.LENGTH_SHORT).show();
@@ -69,7 +69,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), NoteResultActivity.class);
-                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                TextView text = (TextView) view.findViewById(R.id.textview_title);
                 String title = text.getText().toString();
                 intent.putExtra("Title", title);
                 intent.putExtra("id", id);

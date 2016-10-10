@@ -1,10 +1,13 @@
 package ua.primedeym.shoppinglist.Note;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ public class NoteResultActivity extends AppCompatActivity {
     Cursor cursor;
     SQLiteDatabase db;
     TextView title, description;
+    long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +28,19 @@ public class NoteResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_result);
 
         Bundle bundle = getIntent().getExtras();
-        setTitle(bundle.getString("Title"));
         helper = new DBHelper(this);
 
         title = (TextView) findViewById(R.id.note_title);
         description = (TextView) findViewById(R.id.note_description);
+        id = bundle.getLong("id");
+        noteDetail(id);
 
-        noteDetail(bundle.getLong("id"));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        noteDetail(id);
     }
 
     private void noteDetail(long id) {
@@ -48,9 +57,31 @@ public class NoteResultActivity extends AppCompatActivity {
             }
             db.close();
             cursor.close();
-
         } catch (SQLException e) {
             Toast.makeText(this, "База данных не доступна", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.note_result_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_note:
+                Intent intent = new Intent(getApplicationContext(), NoteEditActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("title", title.getText());
+                intent.putExtra("description", description.getText());
+                startActivity(intent);
+                return true;
+            case R.id.delete_note:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

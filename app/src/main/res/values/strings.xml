@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Покупки и заметки</string>
+    <string name="app_name">Helper</string>
     <string name="add_product">Добавить товар</string>
     <string name="delete_products">Очистить список</string>
     <string name="AddProduct_activity_title">Добавить товар в список</string>
@@ -10,11 +10,12 @@
     <string name="custom_dialog_add_button">Добавить</string>
     <string name="custom_dialog_cancel_button">Назад</string>
     <string name="custom_dialog_title">Введите название</string>
-    <string name="list_icon">List Icon</string>
+    <string name="list_icon">Иконка списка</string>
     <string name="counts_all_products">Всего товаров: 0</string>
     <string name="bought_products">Куплено: 0</string>
-    <string name="data_custom_listview">data</string>
-    <string name="version_app">Version app</string>
+    <string name="data_custom_listview">Дата</string>
+    <string name="version_app">Версия приложения</string>
     <string name="list_logo">List logo</string>
     <string name="note_logo">Note logo</string>
+    <string name="edit">Редактировать</string>
 </resources>

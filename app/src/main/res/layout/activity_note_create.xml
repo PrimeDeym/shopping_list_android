@@ -11,33 +11,34 @@
     tools:context="ua.primedeym.shoppinglist.Note.CreateNoteActivity">
 
     <EditText
-        android:layout_width="300dp"
-        android:inputType="textMultiLine"
+        android:id="@+id/et_note_title"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/et_note_description"
         android:ems="10"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp"
-        android:id="@+id/et_note_description"
-        android:hint="Описание заметки"
-        android:layout_height="wrap_content" />
+        android:hint="Название заметки"
+        android:inputType="textPersonName" />
 
     <Button
-        android:text="Добавить"
+        android:id="@+id/button_note_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
-        android:id="@+id/button_note_add"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBaseline="@+id/et_note_title"
+        android:layout_alignBottom="@+id/et_note_title"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="13dp"
+        android:elevation="0dp"
         android:onClick="addNote"
-        android:elevation="0dp" />
+        android:text="Добавить" />
 
     <EditText
-        android:layout_width="200dp"
+        android:id="@+id/et_note_description"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:layout_alignEnd="@+id/button_note_add"
+        android:layout_below="@+id/button_note_add"
         android:ems="10"
-        android:layout_alignTop="@+id/button_note_add"
-        android:id="@+id/et_note_title"
-        android:hint="Название заметки" />
+        android:hint="Описание заметки"
+        android:inputType="textMultiLine" />
 </RelativeLayout>

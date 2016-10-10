@@ -167,20 +167,22 @@ public class ListsActivity extends AppCompatActivity {
         inputText = (EditText) dialog.findViewById(R.id.cd_edit_text);
         TextView dialogTitle = (TextView) dialog.findViewById(R.id.cd_title_text);
         dialogTitle.setText("Название списка");
-        Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
+        final Button addButton = (Button) dialog.findViewById(R.id.cd_button_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (inputText.getText().toString().equals("")) {
+                if (inputText.getText().length() == 0) {
                     Toast.makeText(ListsActivity.this, "Нельзя создавать пустой список", Toast.LENGTH_SHORT).show();
                 } else {
                     listName = inputText.getText().toString();
                     helper.insertShoppingList(listName);
                     Toast.makeText(ListsActivity.this, "Вы создали список " + listName, Toast.LENGTH_SHORT).show();
                     updateCursor();
-                    inputText.setText("");
-                    dialog.show();
+//                    inputText.setText("");
+                    dialog.dismiss();
+
                 }
+
             }
         });
 

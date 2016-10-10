@@ -18,7 +18,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_create);
-
+        // TODO Добавить в ресурсы для англоязычной версии
+        setTitle("Добавить заметку");
         helper = new DBHelper(this);
         title = (EditText) findViewById(R.id.et_note_title);
         description = (EditText) findViewById(R.id.et_note_description);

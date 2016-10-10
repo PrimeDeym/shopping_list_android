@@ -38,7 +38,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Note.NoteResultActivity"
-            android:parentActivityName=".Note.NoteActivity"/>
+            android:parentActivityName=".Note.NoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Note.NoteEditActivity"
+            android:parentActivityName=".Note.NoteResultActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

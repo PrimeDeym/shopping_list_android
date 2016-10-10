@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void insertNote(String name, String description) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
         String data = day + "/" + month + "/" + year;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -90,14 +90,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_BOUGHT, "NO");
         db.insert(PRODUCTS_TABLE_NAME, null, contentValues);
         db.close();
-
     }
 
 
     public void insertShoppingList(String magazine) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
         String data = day + "/" + month + "/" + year;
 
@@ -107,7 +106,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(MAGAZINE_COL_DATA, data);
         sqLiteDatabase.insert(MAGAZINE_TABLE_NAME, null, cv);
         sqLiteDatabase.close();
-
     }
 
     public void updateStatus(long rowID) {
@@ -117,6 +115,15 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?",
                 new String[]{String.valueOf(rowID)});
         sqLiteDatabase.close();
+    }
+
+    public void updateNote(long id, String title, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(NOTE_COL_NAME, title);
+        cv.put(NOTE_COL_DESCRIPTION, description);
+        db.update(NOTE_TABLE_NAME, cv, "_id = " + id, null);
+        db.close();
     }
 
     public void updateList(long rowId, String newName, String oldName) {
@@ -172,7 +179,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteNoteAllListForTest(){
+    public void deleteNoteAllListForTest() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
         sqLiteDatabase.close();
