@@ -182,6 +182,12 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    public void deleteNote(long id){
+        SQLiteDatabase sqLiteDatabase = this. getWritableDatabase();
+        sqLiteDatabase.delete(NOTE_TABLE_NAME, "_id = " + id, null);
+        sqLiteDatabase.close();
+    }
+
     public void deleteNoteAllListForTest() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);

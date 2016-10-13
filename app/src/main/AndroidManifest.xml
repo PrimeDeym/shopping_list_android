@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -42,7 +43,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Note.NoteEditActivity"
-            android:parentActivityName=".Note.NoteResultActivity"
             android:screenOrientation="portrait" />
     </application>
 

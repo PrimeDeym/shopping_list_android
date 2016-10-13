@@ -17,6 +17,9 @@
     <string name="version_app">Версия приложения</string>
     <string name="list_logo">List logo</string>
     <string name="note_logo">Note logo</string>
-    <string name="edit">Редактировать</string>
+    <string name="edit">Изменить</string>
     <string name="delete">Удалить</string>
+    <string name="title">Название</string>
+    <string name="description">Описание</string>
+    <string name="created">"Создана: "</string>
 </resources>

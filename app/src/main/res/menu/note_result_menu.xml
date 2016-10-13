@@ -11,6 +11,6 @@
         android:icon="@drawable/ic_delete_white_24dp"
         android:id="@+id/delete_note"
         android:orderInCategory="100"
-        android:title="delete note"
-        app:showAsAction="ifRoom" />
+        android:title="@string/delete"
+        app:showAsAction="never" />
 </menu>

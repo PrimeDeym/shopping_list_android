@@ -20,7 +20,7 @@ public class NoteEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
-        setTitle("Изменить заметку");
+
 
         bundle = getIntent().getExtras();
         id = bundle.getLong("id");
@@ -31,13 +31,19 @@ public class NoteEditActivity extends AppCompatActivity {
         edit_title = (EditText) findViewById(R.id.activity_edit_title);
         edit_description = (EditText) findViewById(R.id.activity_edit_description);
         edit_title.setText(title);
+        edit_title.setSelection(edit_title.length());
         edit_description.setText(description);
+        edit_description.setSelection(edit_description.length());
 
     }
 
     public void editNote(View view) {
-        helper.updateNote(id, edit_title.getText().toString(), edit_description.getText().toString());
-        Toast.makeText(this, "Заметка обновлена", Toast.LENGTH_SHORT).show();
-        finish();
+        if (edit_title.getText().toString().equals("")){
+            Toast.makeText(this, "Название не должно быть пустым", Toast.LENGTH_SHORT).show();
+        } else {
+            helper.updateNote(id, edit_title.getText().toString(), edit_description.getText().toString());
+            Toast.makeText(this, "Заметка обновлена", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 }

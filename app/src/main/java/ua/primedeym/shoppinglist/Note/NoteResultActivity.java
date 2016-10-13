@@ -19,8 +19,9 @@ public class NoteResultActivity extends AppCompatActivity {
     DBHelper helper;
     Cursor cursor;
     SQLiteDatabase db;
-    TextView title, description;
+    private TextView data, description;
     long id;
+    private String titleNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,11 @@ public class NoteResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         helper = new DBHelper(this);
 
-        title = (TextView) findViewById(R.id.note_title);
+        data = (TextView) findViewById(R.id.note_data);
         description = (TextView) findViewById(R.id.note_description);
         id = bundle.getLong("id");
+        titleNote = bundle.getString("title");
+        setTitle(titleNote);
         noteDetail(id);
 
     }
@@ -50,8 +53,10 @@ public class NoteResultActivity extends AppCompatActivity {
                     new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DESCRIPTION, DBHelper.NOTE_COL_DATA},
                     "_id = " + id, null, null, null, null);
             if (cursor.moveToFirst()) {
-                String name = cursor.getString(1);
-                title.setText(name);
+//                String name = cursor.getString(1);
+//                title.setText(name);
+                String dataCreated = cursor.getString(3);
+                data.setText(getString(R.string.created) + dataCreated);
                 String descriptionCursor = cursor.getString(2);
                 description.setText(descriptionCursor);
             }
@@ -74,11 +79,14 @@ public class NoteResultActivity extends AppCompatActivity {
             case R.id.edit_note:
                 Intent intent = new Intent(getApplicationContext(), NoteEditActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra("title", title.getText());
+                intent.putExtra("title", titleNote);
                 intent.putExtra("description", description.getText());
                 startActivity(intent);
                 return true;
             case R.id.delete_note:
+                helper.deleteNote(id);
+                Toast.makeText(this, "Заметка удалена", Toast.LENGTH_SHORT).show();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

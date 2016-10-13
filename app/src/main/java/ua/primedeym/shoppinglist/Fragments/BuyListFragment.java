@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.R;
 
+import static android.widget.Toast.makeText;
 import static ua.primedeym.shoppinglist.CONST.DELETE_MENU;
 import static ua.primedeym.shoppinglist.CONST.UPDATE_MENU;
 
@@ -66,7 +68,7 @@ public class BuyListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 RelativeLayout rl = (RelativeLayout) view; // get the parent layout view
                 TextView tv = (TextView) rl.findViewById(R.id.ctv_title); // get the child text view
-                Toast.makeText(getContext(), "Вы купили " + tv.getText().toString(), Toast.LENGTH_SHORT).show();
+                makeText(getContext(), "Вы купили " + tv.getText().toString(), Toast.LENGTH_SHORT).show();
                 helper.updateStatus(l);
                 updateCursor();
             }
@@ -112,7 +114,7 @@ public class BuyListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (inputText.getText().toString().equals("")) {
-                    Toast.makeText(getContext(),
+                    makeText(getContext(),
                             "Название не может быть пустым",
                             Toast.LENGTH_SHORT).show();
                 } else {
@@ -157,12 +159,14 @@ public class BuyListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (inputText.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "Название не может быть пустым", Toast.LENGTH_SHORT).show();
+                    makeText(getContext(), "Название не может быть пустым", Toast.LENGTH_SHORT).show();
                 } else {
                     productName = inputText.getText().toString();
                     helper.insertProduct(productName, textTitle);
-                    Toast.makeText(getContext(), "Вы добавили товар "
-                            + inputText.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getContext(), "Вы добавили товар "
+                            + inputText.getText().toString(), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
                     updateCursor();
                     inputText.setText("");
                     dialog.show();
@@ -180,7 +184,6 @@ public class BuyListFragment extends Fragment {
     }
 
     private void showProduct() {
-
         try {
             db = helper.getWritableDatabase();
             cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
@@ -196,7 +199,7 @@ public class BuyListFragment extends Fragment {
                     new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
-            Toast.makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();
+            makeText(getContext(), "База данных не доступна", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -213,7 +216,7 @@ public class BuyListFragment extends Fragment {
             adapter.changeCursor(cursorNew);
             cursor = cursorNew;
         } catch (SQLException e) {
-            Toast.makeText(getContext(), "База не доступна", Toast.LENGTH_SHORT).show();
+            makeText(getContext(), "База не доступна", Toast.LENGTH_SHORT).show();
         }
     }
 

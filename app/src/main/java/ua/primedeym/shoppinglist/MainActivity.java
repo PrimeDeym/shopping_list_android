@@ -12,20 +12,17 @@ import ua.primedeym.shoppinglist.Note.NoteActivity;
 public class MainActivity extends AppCompatActivity {
 
     TextView versionApp;
-    private DBHelper helper;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        helper = new DBHelper(this);
         versionApp();
     }
 
     private void versionApp() {
         versionApp = (TextView) findViewById(R.id.text_version_app);
-        versionApp.setText("Beta in progress " + helper.getCurrentData());
+        versionApp.setText("Beta in progress");
     }
 
     public void startListActivity(View view) {
