@@ -23,16 +23,32 @@ public class CreateNoteActivity extends AppCompatActivity {
         helper = new DBHelper(this);
         title = (EditText) findViewById(R.id.et_note_title);
         description = (EditText) findViewById(R.id.et_note_description);
+
     }
 
     public void addNote(View view) {
-        if (title.getText().toString().equals("")) {
-            Toast.makeText(this, "Назнавние заметки не может быть пустым", Toast.LENGTH_SHORT).show();
+        String textDescription = description.getText().toString();
+        String textTitle = title.getText().toString();
+        if (textTitle.equals("") && textDescription.equals("")){
+            Toast.makeText(this, "Название и Описание не может быть пустым", Toast.LENGTH_SHORT).show();
         } else {
-            helper.insertNote(title.getText().toString(), description.getText().toString());
+            if (textTitle.equals("")) {
+                textTitle = textDescription;
+                if (textTitle.length() > 20) {
+                    textTitle = textDescription.substring(0, 20);
+                    helper.insertNote(textTitle, textDescription);
+                    finish();
+                } else {
+                    helper.insertNote(textTitle, textDescription);
+                    finish();
+                }
+            } else {
+                helper.insertNote(textTitle, textDescription);
+                finish();
+            }
             Toast.makeText(this, "Заметка создана", Toast.LENGTH_SHORT).show();
-            finish();
         }
 
     }
+
 }

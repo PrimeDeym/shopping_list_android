@@ -22,7 +22,8 @@
         android:paddingEnd="16dp"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/textview_data"

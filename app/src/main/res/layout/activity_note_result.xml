@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_note_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:background="@color/white"
-    tools:context="ua.primedeym.shoppinglist.Note.NoteResultActivity">
+    android:background="@color/white">
 
-
-    <TextView
-        android:id="@+id/note_description"
+    <RelativeLayout
+        android:id="@+id/activity_note_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="18sp"
-        android:text="@string/description"
-        tools:text="Description"
-        android:layout_below="@+id/note_data"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp" />
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        tools:context="ua.primedeym.shoppinglist.Note.NoteResultActivity">
 
-    <TextView
-        android:id="@+id/note_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Дата создания: 10/10/1010"
-        android:paddingRight="16dp"
-        android:textSize="12sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/note_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/note_data"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/description"
+            android:textSize="18sp"
+            tools:text="Description" />
+
+        <TextView
+            android:id="@+id/note_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:text="Дата создания: 10/10/1010"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</ScrollView>
