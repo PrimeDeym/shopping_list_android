@@ -7,10 +7,17 @@
         android:orderInCategory="100"
         android:title="@string/edit"
         app:showAsAction="always" />
+
+    <item
+        android:icon="@drawable/ic_share_24dp"
+        android:id="@+id/share_icon"
+        android:orderInCategory="101"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
     <item
         android:icon="@drawable/ic_delete_white_24dp"
         android:id="@+id/delete_note"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
         android:title="@string/delete"
         app:showAsAction="never" />
 </menu>

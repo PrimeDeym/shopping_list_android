@@ -71,7 +71,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        public ViewPagerAdapter(FragmentManager fm) {
+        ViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -85,7 +85,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             return listFragment.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             listFragment.add(fragment);
             titleFragment.add(title);
         }

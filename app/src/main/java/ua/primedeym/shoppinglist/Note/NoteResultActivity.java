@@ -83,6 +83,13 @@ public class NoteResultActivity extends AppCompatActivity {
                 intent.putExtra("description", description.getText());
                 startActivity(intent);
                 return true;
+            case R.id.share_icon:
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, description.getText().toString());
+                shareIntent.setType("text/plain");
+                startActivity(shareIntent);
+                return true;
             case R.id.delete_note:
                 helper.deleteNote(id);
                 Toast.makeText(this, "Заметка удалена", Toast.LENGTH_SHORT).show();
