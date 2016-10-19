@@ -2,6 +2,7 @@ package ua.primedeym.shoppinglist;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -65,7 +66,19 @@ public class DBHelper extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    String getCurrentData(){
+    //получить количество строк магазина
+    public int countBuy(String magazine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String select = "SELECT COUNT (*) FROM " + PRODUCTS_TABLE_NAME + " where " + COL_MAGAZINE + " =?";
+        String[] selectionArgs = new String[]{magazine};
+        Cursor cursor = db.rawQuery(select, selectionArgs);
+        cursor.moveToFirst();
+        int count= cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    private String getCurrentData() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -138,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void updateProductList(String name, long id){
+    public void updateProductList(String name, long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME, name);
@@ -182,8 +195,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void deleteNote(long id){
-        SQLiteDatabase sqLiteDatabase = this. getWritableDatabase();
+    public void deleteNote(long id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, "_id = " + id, null);
         sqLiteDatabase.close();
     }

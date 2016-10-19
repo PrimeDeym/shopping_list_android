@@ -48,7 +48,7 @@ public class NoteActivity extends AppCompatActivity {
             db = helper.getReadableDatabase();
             cursor = db.query(DBHelper.NOTE_TABLE_NAME,
                     new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DATA},
-                    null, null, null, null, null);
+                    null, null, null, null, DBHelper.NOTE_COL_DATA + " DESC");
             adapter = new SimpleCursorAdapter(this,
                     R.layout.custom_listview_note_activity,
                     cursor,

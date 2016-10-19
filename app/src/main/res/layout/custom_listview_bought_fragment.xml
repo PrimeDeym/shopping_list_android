@@ -10,7 +10,7 @@
         android:contentDescription="@string/list_icon"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:src="@mipmap/bought_product" />
+        android:src="@drawable/ic_done_24dp" />
 
     <TextView
         android:id="@+id/ctv_title"

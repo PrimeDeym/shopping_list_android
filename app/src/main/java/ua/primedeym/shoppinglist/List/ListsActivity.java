@@ -39,6 +39,9 @@ public class ListsActivity extends AppCompatActivity {
     CursorAdapter adapter;
     String listName;
     EditText inputText;
+    TextView countBuy;
+    int count;
+
 
 
     @Override
@@ -53,6 +56,7 @@ public class ListsActivity extends AppCompatActivity {
         initListView();
         initFab();
         showShoppingList();
+
     }
 
     private void initListView() {
@@ -136,7 +140,7 @@ public class ListsActivity extends AppCompatActivity {
             db = helper.getReadableDatabase();
             cursor = db.query(DBHelper.MAGAZINE_TABLE_NAME,
                     new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
-                    null, null, null, null, null);
+                    null, null, null, null, DBHelper.MAGAZINE_COL_DATA + " DESC");
             adapter = new SimpleCursorAdapter(this,
                     R.layout.custom_listview_lists_activity,
                     cursor,
@@ -153,7 +157,7 @@ public class ListsActivity extends AppCompatActivity {
             db = helper.getReadableDatabase();
             Cursor cursorNew = db.query(DBHelper.MAGAZINE_TABLE_NAME,
                     new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
-                    null, null, null, null, null);
+                    null, null, null, null, DBHelper.MAGAZINE_COL_DATA + " DESC");
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
             cursor = cursorNew;
