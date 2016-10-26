@@ -28,7 +28,7 @@
         <activity
             android:name=".List.ShoppingListActivity"
             android:parentActivityName=".List.ListsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Note.NoteActivity"
             android:parentActivityName=".MainActivity"
