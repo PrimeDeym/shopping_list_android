@@ -22,20 +22,20 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".List.ListsActivity"
+            android:name=".list.ListsActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".List.ShoppingListActivity"
-            android:parentActivityName=".List.ListsActivity"
+            android:name=".list.ShoppingListActivity"
+            android:parentActivityName=".list.ListsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Note.NoteActivity"
+            android:name=".note.NoteActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Note.CreateNoteActivity"
-            android:parentActivityName=".Note.NoteActivity"
+            android:name=".note.CreateNoteActivity"
+            android:parentActivityName=".note.NoteActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -44,11 +44,11 @@
         </activity>
 
         <activity
-            android:name=".Note.NoteResultActivity"
-            android:parentActivityName=".Note.NoteActivity"
+            android:name=".note.NoteResultActivity"
+            android:parentActivityName=".note.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Note.NoteEditActivity"
+            android:name=".note.NoteEditActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist.Note;
+package ua.primedeym.shoppinglist.note;
 
 import android.content.Intent;
 import android.os.Bundle;

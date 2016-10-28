@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import ua.primedeym.shoppinglist.List.ListsActivity;
-import ua.primedeym.shoppinglist.Note.NoteActivity;
+import ua.primedeym.shoppinglist.list.ListsActivity;
+import ua.primedeym.shoppinglist.note.NoteActivity;
 
 public class MainActivity extends AppCompatActivity {
 

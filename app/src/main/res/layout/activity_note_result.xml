@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        tools:context="ua.primedeym.shoppinglist.Note.NoteResultActivity">
+        tools:context="ua.primedeym.shoppinglist.note.NoteResultActivity">
 
         <TextView
             android:id="@+id/note_description"

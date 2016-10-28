@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="@color/background_color"
-    tools:context="ua.primedeym.shoppinglist.Note.NoteActivity">
+    tools:context="ua.primedeym.shoppinglist.note.NoteActivity">
 
     <ListView
         android:id="@+id/listview_note"

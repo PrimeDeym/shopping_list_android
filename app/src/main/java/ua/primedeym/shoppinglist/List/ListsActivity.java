@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist.List;
+package ua.primedeym.shoppinglist.list;
 
 import android.app.Dialog;
 import android.content.Intent;

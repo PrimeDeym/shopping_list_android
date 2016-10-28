@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_color"
-    tools:context=".Fragments.BuyListFragment">
+    tools:context=".fragments.BuyListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

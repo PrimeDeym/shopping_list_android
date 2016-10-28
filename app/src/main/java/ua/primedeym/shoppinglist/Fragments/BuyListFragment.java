@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist.Fragments;
+package ua.primedeym.shoppinglist.fragments;
 
 
 import android.app.Dialog;

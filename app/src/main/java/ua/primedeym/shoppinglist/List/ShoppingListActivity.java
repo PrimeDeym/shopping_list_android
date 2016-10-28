@@ -1,4 +1,4 @@
-package ua.primedeym.shoppinglist.List;
+package ua.primedeym.shoppinglist.list;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ua.primedeym.shoppinglist.DBHelper;
-import ua.primedeym.shoppinglist.Fragments.BoughtListFragment;
-import ua.primedeym.shoppinglist.Fragments.BuyListFragment;
+import ua.primedeym.shoppinglist.fragments.BoughtListFragment;
+import ua.primedeym.shoppinglist.fragments.BuyListFragment;
 import ua.primedeym.shoppinglist.R;
 
 public class ShoppingListActivity extends AppCompatActivity {
@@ -96,18 +96,19 @@ public class ShoppingListActivity extends AppCompatActivity {
                     new String[]{"_id", DBHelper.COL_NAME, DBHelper.COL_BOUGHT, DBHelper.COL_MAGAZINE},
                     DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ? ",
                     new String[]{"NO", intentMagazine}, null, null, null);
-
+// TODO need to delete this if is not to use
 //            while (cursor.moveToNext()) {
 //                String name = cursor.getString(1);
 //                shareText += name + ". <br>";
 //                //shareText += name + ". ";
 //            }
-
-            for (int i = 0; i < cursor.getCount(); i++) {
+            int numRow = cursor.getCount();
+            for (int i = 0; i < numRow; i++) {
                 cursor.moveToNext();
                 String name = cursor.getString(1);
                 shareText += i + 1 + ". " + name + ". <br>";
             }
+
             cursor.close();
             db.close();
         } catch (SQLiteException e) {
