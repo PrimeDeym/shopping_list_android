@@ -34,7 +34,7 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".note.CreateNoteActivity"
+            android:name=".note.NoteCreateActivity"
             android:parentActivityName=".note.NoteActivity"
             android:screenOrientation="portrait">
             <intent-filter>

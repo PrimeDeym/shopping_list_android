@@ -10,7 +10,7 @@ import android.widget.Toast;
 import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.R;
 
-public class CreateNoteActivity extends AppCompatActivity {
+public class NoteCreateActivity extends AppCompatActivity {
     private EditText title, description;
     private DBHelper helper;
 
@@ -31,7 +31,6 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-            Toast.makeText(this, "text 1st if" + sharedText, Toast.LENGTH_SHORT).show();
             if (sharedText != null) {
                 description.setText(sharedText);
             }
@@ -48,7 +47,8 @@ public class CreateNoteActivity extends AppCompatActivity {
                 textTitle = textDescription;
                 if (textTitle.length() > 20) {
                     textTitle = textDescription.substring(0, 20);
-                    helper.insertNote(textTitle, textDescription);
+                    String text = textTitle + "...";
+                    helper.insertNote(text, textDescription);
                     finish();
                 } else {
                     helper.insertNote(textTitle, textDescription);

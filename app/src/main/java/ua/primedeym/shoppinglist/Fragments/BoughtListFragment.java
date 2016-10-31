@@ -17,8 +17,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import ua.primedeym.shoppinglist.R;
 import ua.primedeym.shoppinglist.DBHelper;
+import ua.primedeym.shoppinglist.R;
 
 public class BoughtListFragment extends Fragment {
 
@@ -32,12 +32,10 @@ public class BoughtListFragment extends Fragment {
     public BoughtListFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bought_list, container, false);
-
         helper = new DBHelper(getContext());
         textTitle = getActivity().getTitle().toString();
 
@@ -97,6 +95,7 @@ public class BoughtListFragment extends Fragment {
     public void showProduct() {
         db = helper.getWritableDatabase();
         try {
+
             cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
                     new String[]{"_id", DBHelper.COL_MAGAZINE, DBHelper.COL_NAME},
                     DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",

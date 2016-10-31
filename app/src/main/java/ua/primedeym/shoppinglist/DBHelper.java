@@ -93,7 +93,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(NOTE_COL_DESCRIPTION, description);
         cv.put(NOTE_COL_DATA, getCurrentData());
         db.insert(NOTE_TABLE_NAME, null, cv);
-        db.close();
     }
 
     public void insertProduct(String name, String magazine) {
@@ -103,7 +102,6 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_MAGAZINE, magazine);
         contentValues.put(COL_BOUGHT, "NO");
         db.insert(PRODUCTS_TABLE_NAME, null, contentValues);
-        db.close();
     }
 
 
@@ -113,7 +111,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(MAGAZINE_COL_NAME, magazine);
         cv.put(MAGAZINE_COL_DATA, getCurrentData());
         sqLiteDatabase.insert(MAGAZINE_TABLE_NAME, null, cv);
-        sqLiteDatabase.close();
     }
 
     public void updateStatus(long rowID) {
@@ -122,7 +119,6 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_BOUGHT, "YES");
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, contentValues, "_id = ?",
                 new String[]{String.valueOf(rowID)});
-        sqLiteDatabase.close();
     }
 
     public void updateNote(long id, String title, String description) {
@@ -131,7 +127,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(NOTE_COL_NAME, title);
         cv.put(NOTE_COL_DESCRIPTION, description);
         db.update(NOTE_TABLE_NAME, cv, "_id = " + id, null);
-        db.close();
     }
 
     public void updateList(long rowId, String newName, String oldName) {
@@ -140,7 +135,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(MAGAZINE_COL_NAME, newName);
         sqLiteDatabase.update(MAGAZINE_TABLE_NAME, cv, "_id = " + rowId, null);
         updateProduct(newName, oldName);
-        sqLiteDatabase.close();
     }
 
     public void updateProduct(String newName, String oldName) {
@@ -148,7 +142,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COL_MAGAZINE, newName);
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, COL_MAGAZINE + " = ?", new String[]{oldName});
-        sqLiteDatabase.close();
     }
 
     public void updateProductList(String name, long id) {
@@ -156,7 +149,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME, name);
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, "_id = " + id, null);
-        sqLiteDatabase.close();
     }
 
 
@@ -166,7 +158,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COL_BOUGHT, "NO");
         sqLiteDatabase.update(PRODUCTS_TABLE_NAME, cv, "_id = ?",
                 new String[]{String.valueOf(rowId)});
-        sqLiteDatabase.close();
     }
 
     public void dropProductTable(String magazine) {
@@ -179,31 +170,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public void dropListTable() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, null, null);
-        sqLiteDatabase.close();
     }
 
     public void deleteList(long rowId, String magazine) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(MAGAZINE_TABLE_NAME, "_id = " + String.valueOf(rowId), null);
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[]{magazine});
-        sqLiteDatabase.close();
     }
 
     public void deleteProduct(long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
-        sqLiteDatabase.close();
     }
 
     public void deleteNote(long id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, "_id = " + id, null);
-        sqLiteDatabase.close();
     }
 
     public void deleteNoteAllListForTest() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
-        sqLiteDatabase.close();
     }
 }

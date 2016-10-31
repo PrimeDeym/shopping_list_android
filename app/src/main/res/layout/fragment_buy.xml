@@ -16,6 +16,7 @@
             android:id="@+id/buy_product_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation"
             android:background="@color/white" />
     </LinearLayout>
 

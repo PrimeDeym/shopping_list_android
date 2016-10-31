@@ -89,7 +89,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void createNote() {
-        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        Intent intent = new Intent(getApplicationContext(), NoteCreateActivity.class);
         startActivity(intent);
 
     }
