@@ -25,21 +25,21 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_above="@+id/et_note_description"
+        android:layout_alignEnd="@+id/et_note_description"
         android:background="#ffffff"
         android:onClick="addNote"
         android:text="@string/button_add"
-        android:textColor="@color/colorPrimary"
-        android:layout_above="@+id/et_note_description"
-        android:layout_alignEnd="@+id/et_note_description" />
+        android:textColor="@color/colorPrimary" />
 
     <EditText
         android:id="@+id/et_note_title"
         android:layout_width="230dp"
         android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/et_note_description"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/title"
-        android:inputType="none"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/et_note_description" />
+        android:inputType="none" />
 </RelativeLayout>

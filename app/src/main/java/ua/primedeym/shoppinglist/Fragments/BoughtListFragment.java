@@ -84,13 +84,30 @@ public class BoughtListFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    helper.dropProductTable(textTitle);
-                    Toast.makeText(getContext(), "Купленые товары удалены", Toast.LENGTH_SHORT).show();
-                    showProduct();
+                    
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Вы уверены?")
+                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    helper.dropProductTable(textTitle);
+                                    Toast.makeText(getContext(), "Купленые товары удалены", Toast.LENGTH_SHORT).show();
+                                    showProduct();
+                                }
+                            })
+                            .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
         }
     }
+
 
     public void showProduct() {
         db = helper.getWritableDatabase();
@@ -140,6 +157,6 @@ public class BoughtListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         cursor.close();
-        db.close();
+        if (db != null) db.close();
     }
 }

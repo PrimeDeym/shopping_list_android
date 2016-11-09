@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -46,6 +47,13 @@ public class NoteResultActivity extends AppCompatActivity {
         noteDetail(id);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+        if (db != null) db.close();
+    }
+
     private void noteDetail(long id) {
         try {
             db = helper.getWritableDatabase();
@@ -53,12 +61,12 @@ public class NoteResultActivity extends AppCompatActivity {
                     new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DESCRIPTION, DBHelper.NOTE_COL_DATA},
                     "_id = " + id, null, null, null, null);
             if (cursor.moveToFirst()) {
-//                String name = cursor.getString(1);
-//                title.setText(name);
                 String dataCreated = cursor.getString(3);
                 data.setText(getString(R.string.created) + dataCreated);
                 String descriptionCursor = cursor.getString(2);
                 description.setText(descriptionCursor);
+                //TODO Если не сработает убрать этот код
+                description.setMovementMethod(LinkMovementMethod.getInstance());
             }
             db.close();
             cursor.close();

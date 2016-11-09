@@ -39,9 +39,6 @@ public class ListsActivity extends AppCompatActivity {
     CursorAdapter adapter;
     String listName;
     EditText inputText;
-    TextView countBuy;
-    int count;
-
 
 
     @Override
@@ -242,9 +239,10 @@ public class ListsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cursor.close();
         if (db != null) {
             db.close();
-            cursor.close();
         }
+
     }
 }

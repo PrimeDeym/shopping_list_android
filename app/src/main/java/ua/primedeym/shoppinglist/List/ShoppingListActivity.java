@@ -33,7 +33,6 @@ public class ShoppingListActivity extends AppCompatActivity {
     String intentMagazine;
     DBHelper helper;
     Fragment frag;
-    List<String> shareArr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +95,6 @@ public class ShoppingListActivity extends AppCompatActivity {
                     new String[]{"_id", DBHelper.COL_NAME, DBHelper.COL_BOUGHT, DBHelper.COL_MAGAZINE},
                     DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ? ",
                     new String[]{"NO", intentMagazine}, null, null, null);
-// TODO need to delete this if is not to use
-//            while (cursor.moveToNext()) {
-//                String name = cursor.getString(1);
-//                shareText += name + ". <br>";
-//                //shareText += name + ". ";
-//            }
             int numRow = cursor.getCount();
             for (int i = 0; i < numRow; i++) {
                 cursor.moveToNext();
@@ -114,6 +107,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         } catch (SQLiteException e) {
             Toast.makeText(this, "База не доступна", Toast.LENGTH_SHORT).show();
         }
+
         String plain = Html.fromHtml(shareText).toString();
         intent.setAction(Intent.ACTION_SEND);
         if (plain.equals("")) {

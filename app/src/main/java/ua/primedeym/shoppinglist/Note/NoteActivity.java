@@ -43,6 +43,13 @@ public class NoteActivity extends AppCompatActivity {
         showNoteList();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+        if (db != null) db.close();
+    }
+
     private void showNoteList() {
         try {
             db = helper.getReadableDatabase();
