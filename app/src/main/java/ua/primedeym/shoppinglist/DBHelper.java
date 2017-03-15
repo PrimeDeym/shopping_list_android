@@ -66,23 +66,12 @@ public class DBHelper extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    //получить количество строк магазина
-    public int countBuy(String magazine) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String select = "SELECT COUNT (*) FROM " + PRODUCTS_TABLE_NAME + " where " + COL_MAGAZINE + " =?";
-        String[] selectionArgs = new String[]{magazine};
-        Cursor cursor = db.rawQuery(select, selectionArgs);
-        cursor.moveToFirst();
-        int count= cursor.getInt(0);
-        cursor.close();
-        return count;
-    }
-
     private String getCurrentData() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
+        if (month <= 9) return day + "/" + "0" + month + "/" + year;
         return day + "/" + month + "/" + year;
     }
 
@@ -133,11 +122,12 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(MAGAZINE_COL_NAME, newName);
+        cv.put(MAGAZINE_COL_DATA, getCurrentData());
         sqLiteDatabase.update(MAGAZINE_TABLE_NAME, cv, "_id = " + rowId, null);
         updateProduct(newName, oldName);
     }
 
-    public void updateProduct(String newName, String oldName) {
+    private void updateProduct(String newName, String oldName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_MAGAZINE, newName);
@@ -191,5 +181,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteNoteAllListForTest() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
+    }
+
+    //получить количество строк магазина
+    public int countBuy(String magazine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String select = "SELECT COUNT (*) FROM " + PRODUCTS_TABLE_NAME + " where " + COL_MAGAZINE + " =?";
+        String[] selectionArgs = new String[]{magazine};
+        Cursor cursor = db.rawQuery(select, selectionArgs);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
     }
 }

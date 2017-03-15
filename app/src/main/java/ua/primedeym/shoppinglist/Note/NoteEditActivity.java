@@ -10,9 +10,9 @@ import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.R;
 
 public class NoteEditActivity extends AppCompatActivity {
-    private DBHelper helper;
+    DBHelper helper;
     EditText edit_title, edit_description;
-    String title, description;
+    //final String title;
     long id;
     Bundle bundle;
 
@@ -21,11 +21,10 @@ public class NoteEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
 
-
         bundle = getIntent().getExtras();
         id = bundle.getLong("id");
-        title = bundle.getString("title");
-        description = bundle.getString("description");
+        String title = bundle.getString("title");
+        String description = bundle.getString("description");
         helper = new DBHelper(this);
 
         edit_title = (EditText) findViewById(R.id.activity_edit_title);

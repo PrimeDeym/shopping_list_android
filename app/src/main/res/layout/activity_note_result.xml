@@ -24,7 +24,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/description"
-            android:autoLink="web"
+            android:autoLink="all"
             android:textSize="18sp"
             tools:text="Description"
             android:textColor="@android:color/black" />

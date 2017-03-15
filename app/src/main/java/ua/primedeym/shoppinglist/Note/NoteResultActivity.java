@@ -6,7 +6,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -65,8 +64,6 @@ public class NoteResultActivity extends AppCompatActivity {
                 data.setText(getString(R.string.created) + dataCreated);
                 String descriptionCursor = cursor.getString(2);
                 description.setText(descriptionCursor);
-                //TODO Если не сработает убрать этот код
-                description.setMovementMethod(LinkMovementMethod.getInstance());
             }
             db.close();
             cursor.close();
@@ -88,7 +85,7 @@ public class NoteResultActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NoteEditActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("title", titleNote);
-                intent.putExtra("description", description.getText());
+                intent.putExtra("description", description.getText().toString());
                 startActivity(intent);
                 return true;
             case R.id.share_icon:

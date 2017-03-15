@@ -11,8 +11,6 @@ import ua.primedeym.shoppinglist.note.NoteActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView versionApp;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void versionApp() {
-        versionApp = (TextView) findViewById(R.id.text_version_app);
+        TextView versionApp = (TextView) findViewById(R.id.text_version_app);
+        //TODO Delete this after release
         versionApp.setText("Beta in progress");
     }
 
