@@ -126,7 +126,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
 
         ViewPagerAdapter(FragmentManager fm) {
             super(fm);

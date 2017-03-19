@@ -40,6 +40,8 @@
         android:layout_alignStart="@+id/et_note_description"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:maxLines="1"
+        android:maxLength="20"
         android:hint="@string/title"
         android:inputType="none" />
 </RelativeLayout>

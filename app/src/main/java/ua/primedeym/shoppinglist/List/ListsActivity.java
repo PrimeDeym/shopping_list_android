@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
@@ -18,8 +19,6 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +35,7 @@ public class ListsActivity extends AppCompatActivity {
     SQLiteDatabase db;
     Cursor cursor;
     ListView listView;
-    CursorAdapter adapter;
+    CustomAdapter adapter;
     String listName;
     EditText inputText;
 
@@ -62,8 +61,9 @@ public class ListsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
-                TextView tv = (TextView) ll.findViewById(R.id.ctv_title); // get the child text view
+                //RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
+                ConstraintLayout cl = (ConstraintLayout) view;
+                TextView tv = (TextView) cl.findViewById(R.id.ctv_title); // get the child text view
                 final String text = tv.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
                 intent.putExtra("magazine", text);
@@ -138,7 +138,7 @@ public class ListsActivity extends AppCompatActivity {
             cursor = db.query(DBHelper.MAGAZINE_TABLE_NAME,
                     new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
                     null, null, null, null, DBHelper.MAGAZINE_COL_DATA + " DESC");
-            adapter = new SimpleCursorAdapter(this,
+            adapter = new CustomAdapter(this,
                     R.layout.custom_listview_lists_activity,
                     cursor,
                     new String[]{DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},

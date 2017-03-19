@@ -66,6 +66,14 @@ public class DBHelper extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
+    public String formatedDate(Calendar data) {
+        int day = data.get(Calendar.DAY_OF_MONTH);
+        int month = data.get(Calendar.MONTH) + 1;
+        int year = data.get(Calendar.YEAR);
+        if (month <= 9) return day + "/" + "0" + month + "/" + year;
+        return day + "/" + month + "/" + year;
+    }
+
     private String getCurrentData() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);

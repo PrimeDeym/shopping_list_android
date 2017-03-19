@@ -21,6 +21,6 @@
     <string name="delete">Удалить</string>
     <string name="title">Название</string>
     <string name="description">Описание</string>
-    <string name="created">"Создана: "</string>
+    <string name="created">Создана: </string>
     <string name="share">Поделиться</string>
 </resources>
