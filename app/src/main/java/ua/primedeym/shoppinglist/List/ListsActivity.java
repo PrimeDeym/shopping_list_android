@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,9 +61,9 @@ public class ListsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //RelativeLayout ll = (RelativeLayout) view; // get the parent layout view
-                ConstraintLayout cl = (ConstraintLayout) view;
-                TextView tv = (TextView) cl.findViewById(R.id.ctv_title); // get the child text view
+                RelativeLayout relativeLayout = (RelativeLayout) view; // get the parent layout view
+
+                TextView tv = (TextView) relativeLayout.findViewById(R.id.ctv_title); // get the child text view
                 final String text = tv.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
                 intent.putExtra("magazine", text);

@@ -23,4 +23,6 @@
     <string name="description">Описание</string>
     <string name="created">Создана: </string>
     <string name="share">Поделиться</string>
+    <string name="bought">Куплено:</string>
+    <string name="all_counts">Всего позиций:</string>
 </resources>

@@ -2,7 +2,6 @@ package ua.primedeym.shoppinglist;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -64,14 +63,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
-    }
-
-    public String formatedDate(Calendar data) {
-        int day = data.get(Calendar.DAY_OF_MONTH);
-        int month = data.get(Calendar.MONTH) + 1;
-        int year = data.get(Calendar.YEAR);
-        if (month <= 9) return day + "/" + "0" + month + "/" + year;
-        return day + "/" + month + "/" + year;
     }
 
     private String getCurrentData() {
@@ -176,30 +167,13 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[]{magazine});
     }
 
-    public void deleteProduct(long id) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, "_id = " + id, null);
-    }
-
-    public void deleteNote(long id) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(NOTE_TABLE_NAME, "_id = " + id, null);
-    }
-
     public void deleteNoteAllListForTest() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
     }
 
-    //получить количество строк магазина
-    public int countBuy(String magazine) {
+    public void deleteFromDB(long id, String dbTableName){
         SQLiteDatabase db = this.getWritableDatabase();
-        String select = "SELECT COUNT (*) FROM " + PRODUCTS_TABLE_NAME + " where " + COL_MAGAZINE + " =?";
-        String[] selectionArgs = new String[]{magazine};
-        Cursor cursor = db.rawQuery(select, selectionArgs);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        return count;
+        db.delete(dbTableName, "_id = " + id, null);
     }
 }

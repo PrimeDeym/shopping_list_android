@@ -32,8 +32,8 @@ class CustomAdapter extends SimpleCursorAdapter {
         TextView boughtCount = (TextView) view.findViewById(R.id.ctv_counts_bought);
         date.setText(dateC);
         name.setText(title);
-        boughtCount.setText("Куплено: " + getBoughtCount(title));
-        allCounts.setText("Всего товаров: " + getCounts(title));
+        boughtCount.setText(context.getString(R.string.bought) + " " + getBoughtCount(title));
+        allCounts.setText(context.getString(R.string.all_counts) + " " + getCounts(title));
     }
 
     private int getCounts(String name) {

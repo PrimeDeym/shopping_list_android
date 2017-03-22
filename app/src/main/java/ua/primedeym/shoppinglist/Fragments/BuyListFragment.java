@@ -91,7 +91,7 @@ public class BuyListFragment extends Fragment {
                 showDialog(adapter.id, tv.getText().toString());
                 return true;
             case DELETE_MENU:
-                helper.deleteProduct(adapter.id);
+                helper.deleteFromDB(adapter.id, DBHelper.PRODUCTS_TABLE_NAME);
                 updateCursor();
                 return true;
             default:

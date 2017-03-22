@@ -1,90 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    android:layout_height="72dp">
+
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="11dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:contentDescription="@string/list_icon"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:src="@drawable/ic_shopping_cart_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/ctv_title"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:src="@drawable/ic_shopping_cart_black_24dp" />
 
     <TextView
         android:id="@+id/ctv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/image_view"
+
         android:paddingEnd="16dp"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/image_view"
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:id="@+id/data_ctv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ctv_title"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
         android:paddingEnd="8dp"
+
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
         android:text="@string/data_custom_listview"
-        android:textSize="12sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/ctv_counts_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ctv_title"
-        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/image_view"
         android:text="@string/counts_all_products"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        app:layout_constraintLeft_toLeftOf="@+id/ctv_title"
-        app:layout_constraintTop_toBottomOf="@+id/ctv_title"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 
     <TextView
         android:id="@+id/ctv_counts_bought"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ctv_counts_all"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="19dp"
         android:layout_toEndOf="@+id/ctv_counts_all"
         android:text="@string/bought_products"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#00c853"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ctv_counts_all"
-        app:layout_constraintLeft_toRightOf="@+id/ctv_counts_all"
-        tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintLeft_creator="1" />
+        android:textColor="#00c853" />
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

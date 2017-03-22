@@ -70,7 +70,7 @@ public class BoughtListFragment extends Fragment {
                 .setNeutralButton("Удалить", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        helper.deleteProduct(rID);
+                        helper.deleteFromDB(rID, DBHelper.PRODUCTS_TABLE_NAME);
                         updateCursor();
                     }
                 });

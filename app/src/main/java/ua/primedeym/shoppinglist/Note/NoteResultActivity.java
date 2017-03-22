@@ -96,7 +96,7 @@ public class NoteResultActivity extends AppCompatActivity {
                 startActivity(shareIntent);
                 return true;
             case R.id.delete_note:
-                helper.deleteNote(id);
+                helper.deleteFromDB(id, DBHelper.NOTE_TABLE_NAME);
                 Toast.makeText(this, "Заметка удалена", Toast.LENGTH_SHORT).show();
                 finish();
                 return true;

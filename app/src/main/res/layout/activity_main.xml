@@ -15,33 +15,33 @@
         android:id="@+id/button_main_shopping"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:background="@drawable/oval"
         android:contentDescription="@string/list_logo"
         android:onClick="startListActivity"
-        android:src="@drawable/main_logo_products" />
+        android:src="@drawable/main_logo_products"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/text_version_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/version_app"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/version_app" />
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:id="@+id/button_main_todo"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_below="@id/button_main_shopping"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:background="@drawable/oval"
         android:contentDescription="@string/note_logo"
         android:onClick="startToDoActivity"
-        android:src="@drawable/main_logo_note" />
+        android:src="@drawable/main_logo_note"
+        android:layout_below="@+id/button_main_shopping"
+        android:layout_alignStart="@+id/button_main_shopping"
+        android:layout_marginTop="31dp" />
 
 
 </RelativeLayout>
