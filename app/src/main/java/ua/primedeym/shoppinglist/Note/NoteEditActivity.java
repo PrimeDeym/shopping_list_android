@@ -10,18 +10,16 @@ import ua.primedeym.shoppinglist.DBHelper;
 import ua.primedeym.shoppinglist.R;
 
 public class NoteEditActivity extends AppCompatActivity {
-    DBHelper helper;
-    EditText edit_title, edit_description;
-    //final String title;
-    long id;
-    Bundle bundle;
+    private DBHelper helper;
+    private EditText edit_title, edit_description;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
 
-        bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         id = bundle.getLong("id");
         String title = bundle.getString("title");
         String description = bundle.getString("description");

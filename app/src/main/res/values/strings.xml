@@ -11,7 +11,7 @@
     <string name="custom_dialog_cancel_button">Назад</string>
     <string name="custom_dialog_title">Введите название</string>
     <string name="list_icon">Иконка списка</string>
-    <string name="counts_all_products">Всего товаров: 0</string>
+    <string name="counts_all_products">Всего позиций: 0</string>
     <string name="bought_products">Куплено: 0</string>
     <string name="data_custom_listview">Дата</string>
     <string name="version_app">Версия приложения</string>

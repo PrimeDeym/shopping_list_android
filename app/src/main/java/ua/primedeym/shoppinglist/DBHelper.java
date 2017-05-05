@@ -167,10 +167,10 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(PRODUCTS_TABLE_NAME, COL_MAGAZINE + " = ?", new String[]{magazine});
     }
 
-    public void deleteNoteAllListForTest() {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
-    }
+//    public void deleteNoteAllListForTest() {
+//        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+//        sqLiteDatabase.delete(NOTE_TABLE_NAME, null, null);
+//    }
 
     public void deleteFromDB(long id, String dbTableName){
         SQLiteDatabase db = this.getWritableDatabase();

@@ -37,7 +37,6 @@ public class NoteResultActivity extends AppCompatActivity {
         titleNote = bundle.getString("title");
         setTitle(titleNote);
         noteDetail(id);
-
     }
 
     @Override
@@ -61,7 +60,7 @@ public class NoteResultActivity extends AppCompatActivity {
                     "_id = " + id, null, null, null, null);
             if (cursor.moveToFirst()) {
                 String dataCreated = cursor.getString(3);
-                data.setText(getString(R.string.created) + dataCreated);
+                data.setText(getString(R.string.created) + " " + dataCreated);
                 String descriptionCursor = cursor.getString(2);
                 description.setText(descriptionCursor);
             }
