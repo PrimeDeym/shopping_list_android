@@ -58,7 +58,7 @@ public class NoteCreateActivity extends AppCompatActivity {
                 helper.insertNote(textTitle, textDescription);
                 finish();
             }
-            Toast.makeText(this, "Заметка создана", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Заметка " + textTitle + " создана", Toast.LENGTH_SHORT).show();
         }
     }
 }

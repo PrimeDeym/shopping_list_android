@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -61,12 +60,14 @@ public class ListsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RelativeLayout relativeLayout = (RelativeLayout) view; // get the parent layout view
-
-                TextView tv = (TextView) relativeLayout.findViewById(R.id.ctv_title); // get the child text view
+                // get the parent layout view
+                RelativeLayout relativeLayout = (RelativeLayout) view;
+                // get the child text view
+                TextView tv = (TextView) relativeLayout.findViewById(R.id.ctv_title);
                 final String text = tv.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
                 intent.putExtra("magazine", text);
+                intent.putExtra("_id", l);
                 startActivity(intent);
             }
         });
@@ -136,8 +137,8 @@ public class ListsActivity extends AppCompatActivity {
         try {
             db = helper.getReadableDatabase();
             cursor = db.query(DBHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
-                    null, null, null, null, DBHelper.MAGAZINE_COL_DATA + " DESC");
+                    new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA, DBHelper.MAGAZINE_COL_TIMESTAMP},
+                    null, null, null, null, DBHelper.MAGAZINE_COL_TIMESTAMP + " DESC");
             adapter = new CustomAdapter(this,
                     R.layout.custom_listview_lists_activity,
                     cursor,
@@ -145,7 +146,8 @@ public class ListsActivity extends AppCompatActivity {
                     new int[]{R.id.ctv_title, R.id.data_ctv}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
-            Toast.makeText(ListsActivity.this, "База данных не доступна", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListsActivity.this, "База данных не доступна версия базы " +
+                    DBHelper.getDbVersion(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -153,8 +155,8 @@ public class ListsActivity extends AppCompatActivity {
         try {
             db = helper.getReadableDatabase();
             Cursor cursorNew = db.query(DBHelper.MAGAZINE_TABLE_NAME,
-                    new String[]{"_id", DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA},
-                    null, null, null, null, DBHelper.MAGAZINE_COL_DATA + " DESC");
+                    new String[]{DBHelper.MAGAZINE_COL_ID, DBHelper.MAGAZINE_COL_NAME, DBHelper.MAGAZINE_COL_DATA, DBHelper.MAGAZINE_COL_TIMESTAMP},
+                    null, null, null, null, DBHelper.MAGAZINE_COL_TIMESTAMP + " DESC");
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
             adapter.changeCursor(cursorNew);
             cursor = cursorNew;
@@ -210,36 +212,37 @@ public class ListsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.drop_table:
-                helper.dropListTable();
-                onResume();
-                Toast.makeText(ListsActivity.this, "Все списки удалены",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.drop_table:
+//                helper.dropListTable();
+//                onResume();
+//                Toast.makeText(ListsActivity.this, "Все списки удалены",
+//                        Toast.LENGTH_SHORT).show();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateCursor();
+        if (cursor != null) updateCursor();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cursor.close();
+        if (cursor != null) cursor.close();
+
         if (db != null) {
             db.close();
         }

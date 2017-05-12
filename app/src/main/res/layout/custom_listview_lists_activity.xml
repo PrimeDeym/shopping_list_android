@@ -53,8 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ctv_counts_all"
-        android:layout_marginStart="19dp"
-        android:layout_toEndOf="@+id/ctv_counts_all"
+        android:layout_marginStart="220dp"
         android:text="@string/bought_products"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#00c853" />

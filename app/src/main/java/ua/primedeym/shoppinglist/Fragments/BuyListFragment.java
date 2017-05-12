@@ -163,10 +163,11 @@ public class BuyListFragment extends Fragment {
                 } else {
                     productName = inputText.getText().toString();
                     helper.insertProduct(productName, textTitle);
-                    Toast toast = Toast.makeText(getContext(), "Вы добавили товар "
-                            + inputText.getText().toString(), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "Вы добавили товар " + "'"
+                            + inputText.getText().toString() + "'", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
+                    helper.updateTimeStampAndDate(getActivity().getIntent().getLongExtra("_id", 0));
                     updateCursor();
                     inputText.setText("");
                     dialog.show();
@@ -187,15 +188,15 @@ public class BuyListFragment extends Fragment {
         try {
             db = helper.getWritableDatabase();
             cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", DBHelper.COL_NAME},
-                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
+                    new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_NAME},
+                    DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
                     null, null, null);
 
             adapter = new SimpleCursorAdapter(getContext(),
                     R.layout.custom_listview_buy_fragment,
                     cursor,
-                    new String[]{DBHelper.COL_NAME},
+                    new String[]{DBHelper.PRODUCTS_COL_NAME},
                     new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
@@ -208,8 +209,9 @@ public class BuyListFragment extends Fragment {
         db = helper.getWritableDatabase();
         try {
             Cursor cursorNew = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", DBHelper.COL_MAGAZINE, DBHelper.COL_NAME},
-                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
+                    new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_MAGAZINE,
+                            DBHelper.PRODUCTS_COL_NAME},
+                    DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ?",
                     new String[]{"NO", textTitle},
                     null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();

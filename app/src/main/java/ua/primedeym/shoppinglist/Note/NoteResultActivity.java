@@ -56,7 +56,8 @@ public class NoteResultActivity extends AppCompatActivity {
         try {
             db = helper.getWritableDatabase();
             cursor = db.query(DBHelper.NOTE_TABLE_NAME,
-                    new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DESCRIPTION, DBHelper.NOTE_COL_DATA},
+                    new String[]{DBHelper.NOTE_COL_ID, DBHelper.NOTE_COL_NAME,
+                            DBHelper.NOTE_COL_DESCRIPTION, DBHelper.NOTE_COL_DATA},
                     "_id = " + id, null, null, null, null);
             if (cursor.moveToFirst()) {
                 String dataCreated = cursor.getString(3);

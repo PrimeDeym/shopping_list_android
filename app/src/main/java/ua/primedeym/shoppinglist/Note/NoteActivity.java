@@ -46,7 +46,7 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cursor.close();
+        if (cursor != null) cursor.close();
         if (db != null) db.close();
     }
 
@@ -54,8 +54,9 @@ public class NoteActivity extends AppCompatActivity {
         try {
             db = helper.getReadableDatabase();
             cursor = db.query(DBHelper.NOTE_TABLE_NAME,
-                    new String[]{"_id", DBHelper.NOTE_COL_NAME, DBHelper.NOTE_COL_DATA},
-                    null, null, null, null, DBHelper.NOTE_COL_DATA + " DESC");
+                    new String[]{DBHelper.NOTE_COL_ID, DBHelper.NOTE_COL_NAME,
+                            DBHelper.NOTE_COL_DATA, DBHelper.NOTE_COL_TIMESTAMP},
+                    null, null, null, null, DBHelper.NOTE_COL_TIMESTAMP + " DESC");
             adapter = new SimpleCursorAdapter(this,
                     R.layout.custom_listview_note_activity,
                     cursor,

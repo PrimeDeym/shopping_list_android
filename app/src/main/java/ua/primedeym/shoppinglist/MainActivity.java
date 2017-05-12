@@ -12,6 +12,7 @@ import ua.primedeym.shoppinglist.note.NoteActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private void versionApp() {
         TextView versionApp = (TextView) findViewById(R.id.text_version_app);
         //TODO Delete this after release
-        versionApp.setText("Beta in progress");
+        versionApp.setText("Beta in progress. DB v." + DBHelper.getDbVersion());
     }
 
     public void startListActivity(View view) {

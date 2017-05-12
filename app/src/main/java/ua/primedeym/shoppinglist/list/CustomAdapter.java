@@ -45,8 +45,9 @@ class CustomAdapter extends SimpleCursorAdapter {
     private int getCounts(String name) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                new String[]{"_id", DBHelper.COL_NAME, DBHelper.COL_BOUGHT, DBHelper.COL_MAGAZINE},
-                DBHelper.COL_MAGAZINE + " = ? ",
+                new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_NAME,
+                        DBHelper.PRODUCTS_COL_BOUGHT, DBHelper.PRODUCTS_COL_MAGAZINE},
+                DBHelper.PRODUCTS_COL_MAGAZINE + " = ? ",
                 new String[]{name}, null, null, null);
         int count = cursor.getCount();
         cursor.close();
@@ -56,8 +57,9 @@ class CustomAdapter extends SimpleCursorAdapter {
     private int getBoughtCount(String name) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                new String[]{"_id", DBHelper.COL_NAME, DBHelper.COL_BOUGHT, DBHelper.COL_MAGAZINE},
-                DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ? ",
+                new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_NAME,
+                        DBHelper.PRODUCTS_COL_BOUGHT, DBHelper.PRODUCTS_COL_MAGAZINE},
+                DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ? ",
                 new String[]{"YES", name}, null, null, null);
         int count = cursor.getCount();
         cursor.close();

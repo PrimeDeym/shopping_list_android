@@ -92,8 +92,8 @@ public class ShoppingListActivity extends AppCompatActivity {
         try {
             SQLiteDatabase db = helper.getWritableDatabase();
             Cursor cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", DBHelper.COL_NAME, DBHelper.COL_BOUGHT, DBHelper.COL_MAGAZINE},
-                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ? ",
+                    new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_NAME, DBHelper.PRODUCTS_COL_BOUGHT, DBHelper.PRODUCTS_COL_MAGAZINE},
+                    DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ? ",
                     new String[]{"NO", intentMagazine}, null, null, null);
             int numRow = cursor.getCount();
             for (int i = 0; i < numRow; i++) {

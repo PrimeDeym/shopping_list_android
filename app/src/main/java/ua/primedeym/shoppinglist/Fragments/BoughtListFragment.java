@@ -114,14 +114,14 @@ public class BoughtListFragment extends Fragment {
         try {
 
             cursor = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", DBHelper.COL_MAGAZINE, DBHelper.COL_NAME},
-                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
+                    new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_MAGAZINE, DBHelper.PRODUCTS_COL_NAME},
+                    DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ?",
                     new String[]{"YES", textTitle},
                     null, null, null);
             CursorAdapter adapter = new SimpleCursorAdapter(getContext(),
                     R.layout.custom_listview_bought_fragment,
                     cursor,
-                    new String[]{DBHelper.COL_NAME},
+                    new String[]{DBHelper.PRODUCTS_COL_NAME},
                     new int[]{R.id.ctv_title}, 0);
             listView.setAdapter(adapter);
         } catch (SQLException e) {
@@ -134,8 +134,8 @@ public class BoughtListFragment extends Fragment {
             helper = new DBHelper(getContext());
             db = helper.getReadableDatabase();
             cursorNew = db.query(DBHelper.PRODUCTS_TABLE_NAME,
-                    new String[]{"_id", DBHelper.COL_MAGAZINE, DBHelper.COL_NAME},
-                    DBHelper.COL_BOUGHT + " = ? and " + DBHelper.COL_MAGAZINE + " = ?",
+                    new String[]{DBHelper.PRODUCTS_COL_ID, DBHelper.PRODUCTS_COL_MAGAZINE, DBHelper.PRODUCTS_COL_NAME},
+                    DBHelper.PRODUCTS_COL_BOUGHT + " = ? and " + DBHelper.PRODUCTS_COL_MAGAZINE + " = ?",
                     new String[]{"YES", textTitle},
                     null, null, null);
             CursorAdapter adapter = (CursorAdapter) listView.getAdapter();
